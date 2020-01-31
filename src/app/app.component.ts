@@ -8,3 +8,5 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'root-of-civilization';
 }
+
+// document.getElementById('poop').textContent="poop";

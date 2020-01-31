@@ -1,3 +1,19 @@
+import { Component, OnInit } from '@angular/core';
+
+@Component({
+  selector: 'app-polity',
+  templateUrl: './polity.component.html',
+  styleUrls: ['./polity.component.scss']
+})
+export class PolityComponent implements OnInit {
+
+  constructor() { }
+
+  ngOnInit() {
+  }
+
+}
+
 // INTERFACE AND CLASS EXPERIMENTION PER MOSH TUTORIAL 1/27/20
 
 export class Polity {
@@ -56,6 +72,46 @@ export class Polity {
     console.log(`This ${this.polityType} is too abstract to do anything on Tile-${tile.id}`);
   }
 
+  // FORAGE SOCIETY POTENTIAL ACTIONS
+  doNothing(){
+    //...they lounge about doing nothing of interest. Make this contribute to happiness later on
+  }
+
+  migrate(){
+    // 1. Search 8 surrounding tiles beginning with a random direction for first unsettled tile
+    // 2. Transfar polity to first unsettled tile
+    // 3. If no migration is possible, set a boolean for polity declaring migration impossible
+    // 4. Boolean will keep polity from choosing migration next year
+  }
+
+  farm(){
+    // 1. Generate max food for the tile given the crop used, and farming prowess of the polity
+    // 2. Generate variable determining how much food the population makes
+        //this.foodYielded = (this._population * newVar);
+  }
+
+  attack(){
+    // 1. Search 8 surrounding tiles randomly for first settled tile
+    // 2. Commence battle between two polities based on a combat strength property
+    // 3. Determine casualties for both sides
+    // 4. Determine winner of the battle
+    // 5. Transfer spoils to winner
+    // 6. If invader won, invader chooses to go home or stay in conquered tile
+    // 7. If invader stays, generate new band for conquerors from old band population 
+      //(bands can only occupy one tile. Once they reach Tribe level, they are able to exist across multiple tiles)
+    // 8. Conquered polity is either assimilate or dispersed
+  }
+
+  pray(){
+    // 1. Each prayer increases faith 
+    // 2. If polity has faith, there is a small chance each year they will get divine inspiration
+    // 3. Divine inspiration allows them to start building a temple
+    // 4. Temple takes time to build
+    // 5. Once completed it has benefits...
+      // attracts settlers?
+      // somehow leads to farming?
+      // better combat strength?
+  }
 
 }
 
@@ -93,7 +149,8 @@ export class Band extends Polity {
 
     //INCASE THERE IS NOT ENOUGH FOOD
     if (this._food < 0) {
-      //POPULATION DIES OF STARVATION OR LOOKS FOR NEW FOOD SORUCE
+
+      //POPULATION DIES OF STARVATION OR LOOKS FOR NEW FOOD SOURCE
       console.log(`${-this._food} people died of starvation or went looking for new food`);
       this._population += this._food;
       //FOOD STORE IS BACK TO 0
@@ -105,12 +162,22 @@ export class Band extends Polity {
     }
   }
 
+  freeAction() {
+      // 1. DO NOTHING
+      // 2. MIGRATE
+      // 3. FARM
+      // 4. ATTACK
+      // 5. PRAY
+  }
+
   act(tile) {
     // 1. FORAGE FOOD
     this.forage(tile);
     // 2. CONSUME FOOD
     this.eat();
-    // 3. STORE FOOD
+    // 3. FREE ACTION
+    this.freeAction();
+    // 4. STORE FOOD
     this.storeFood();
 
 

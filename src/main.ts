@@ -1,11 +1,11 @@
-import { enableProdMode } from '@angular/core';
+import { enableProdMode, ElementRef } from '@angular/core';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
-import {Polity, Band} from './polities/polity';
-import {Tile} from './tiles/tile';
+import {Polity, Band} from './app/polity/polity.component';
+import {Tile, TileComponent} from './app/tile/tile.component';
 
 if (environment.production) {
   enableProdMode();
@@ -18,21 +18,28 @@ platformBrowserDynamic().bootstrapModule(AppModule)
 /*******************
  * POLITY SIMULATION
  *******************/
-let tanky = new Band(10,10, "Tanky");
 
-let tile = new Tile(1, [tanky]);
+// for(let i=0; i< tiles.length; i++){
+//   let tile = tiles[i];
+//   console.log(`yo`);
+// }
+let tanky = new Band(10,10, "Tanky");
+let tile = new Tile(1);
+
 
 //iterate over each polity in the tile
 for (let i = 0; i < 100; i++){
   console.log(`THIS IS YEAR ${i}`);
-  let polities = tile._polities;
-  polities[0].details();
-  
-  polities[0].act(tile);
-  polities[0].populationGrowth();
-  
-  // console.log(`Tile-${tile.id} has ${tile.space} space left.`)
-  tile.resetSpace();
-  
+  console.log(`SETTLED STATUS = ${tile._settled}`)
+  if(tile._polity){
+    
+    tile._polity.details();
+    
+    tile._polity.act(tile);
+    tile._polity.populationGrowth();
+    
+    // console.log(`Tile-${tile.id} has ${tile.space} space left.`)
+    tile.resetSpace();
+  }
   
 }
