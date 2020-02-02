@@ -5,6 +5,7 @@
 /* VARIABLES */
 /* --------------------------------- */
 $tile-size:5rem;
+$tile-color: rgb(19, 83, 19);
 
 /* --------------------------------- */
 /* TILES */
@@ -12,7 +13,13 @@ $tile-size:5rem;
 
 
 .tile{
-    background-color:rgb(19, 83, 19);
+    background-color:$tile-color;
     width:$tile-size;
     height:$tile-size;
+    
+}
+
+.tile:hover{
+    cursor:pointer;
+    background-color: lighten($tile-color, 10);
 }

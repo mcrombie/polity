@@ -1,28 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-
-@Component({
-  selector: 'app-polity',
-  templateUrl: './polity.component.html',
-  styleUrls: ['./polity.component.scss']
-})
-export class PolityComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
-}
+import { Region } from '../region/region';
 
 // INTERFACE AND CLASS EXPERIMENTION PER MOSH TUTORIAL 1/27/20
 
 export class Polity {
+  public _settled:boolean;
+  public _population: number; 
+  public _food: number;
+  public _name?: string;
   private _polityType: string;
   private _birthRate: number;
   private _infantMortality: number;
   private _growthRate: number;
 
-  constructor(public _population: number, public _food: number, public _name?: string) {
+  constructor() {
+    this._name = "Abstract Polity";
+    this._settled = false;
     this._polityType = 'polity';
     this._birthRate = this.calculateBirthRate();
     this._infantMortality = .5; //assuming half of all babies don't make it
@@ -67,9 +59,34 @@ export class Polity {
     this._population = np;
   }
 
+  searchForFreeNeighboringRegions(regions, region){
+    let chosenRegion:Region;
+    let regionOptions = [
+      (String.fromCharCode(region._id[0].charCodeAt(0) - 1)) + (region._id[1] - 1), //northwest
+      (String.fromCharCode(region._id[0].charCodeAt(0) - 1)) + region._id[1], //west
+      (String.fromCharCode(region._id[0].charCodeAt(0) - 1)) + (parseInt(region._id[1]) + 1), //southwest
+      region._id[0] + (parseInt(region._id[1]) - 1), //north
+      region._id[0] + (parseInt(region._id[1]) + 1), //south
+      (String.fromCharCode(region._id[0].charCodeAt(0) + 1)) + (region._id[1] - 1), //northeast
+      (String.fromCharCode(region._id[0].charCodeAt(0) + 1)) + region._id[1], //east
+      (String.fromCharCode(region._id[0].charCodeAt(0) + 1)) + (parseInt(region._id[1]) + 1) //southeast
+
+    ];
+
+    regions.filter((potentialRegion) => {
+      for (let i=0; i < regionOptions.length; i++){
+        if(potentialRegion._id == regionOptions[i]){
+          chosenRegion = potentialRegion;
+        }
+      }
+    })
+
+    return chosenRegion;
+  }
+
   //METHOD ENCAPSULATING ALL ACTIONS BY THE POLITY
-  act(tile) {
-    console.log(`This ${this.polityType} is too abstract to do anything on Tile-${tile.id}`);
+  act(regions, region) {
+    //console.log(`This ${this.polityType} is too abstract to do anything on Tile-${tile.id}`);
   }
 
   // FORAGE SOCIETY POTENTIAL ACTIONS
@@ -77,11 +94,29 @@ export class Polity {
     //...they lounge about doing nothing of interest. Make this contribute to happiness later on
   }
 
-  migrate(){
+  migrate(regions,region){
     // 1. Search 8 surrounding tiles beginning with a random direction for first unsettled tile
-    // 2. Transfar polity to first unsettled tile
-    // 3. If no migration is possible, set a boolean for polity declaring migration impossible
-    // 4. Boolean will keep polity from choosing migration next year
+    let newRegion = this.searchForFreeNeighboringRegions(regions,region);
+
+    // 2. If you can't find a new region this fails
+    if(typeof newRegion === undefined){
+      console.log('failed to find new region!')
+    }
+    // 3. Transfer polity to first unsettled tile
+    else{
+      console.log(`We are settling the new region of ${newRegion._id}`);
+      let newPolityName = "SammyKa";
+      let newPolityPopulation = 10;
+      //Add new polity to region
+      newRegion._polity = new Band(newRegion, newPolityPopulation, 0, newPolityName);
+      // Remove corresponding population from old region
+      this._population -= newPolityPopulation;
+
+    }
+    // 4. If no migration is possible, set a boolean for polity declaring migration impossible
+    // 5. Boolean will keep polity from choosing migration next year
+    // 6. Return the new region
+    return newRegion;
   }
 
   farm(){
@@ -121,9 +156,10 @@ export class Polity {
 export class Band extends Polity {
   public foodYielded: number;
   public storageCapacity:number;
-  constructor(public _population: number, public _food: number,
+  constructor(public _region:Region, public _population: number, public _food: number,
     public _name?: string) {
-    super(_population, _food, _name);
+    super();
+    this._settled = true;
     this.polityType = 'band';
     this.storageCapacity = .01; //they can only save 1/100th of extra food
   }
@@ -144,15 +180,19 @@ export class Band extends Polity {
     this._food -= this._population;
   }
 
-  storeFood() {
+  storeFood(regions,region) {
     //ESSENTIALLY JUST CAPPING FOOD CARRIED OVER FROM ONE YEAR TO ANOTHER FOR NOW
 
     //INCASE THERE IS NOT ENOUGH FOOD
     if (this._food < 0) {
 
+      // 1. Population migrates
+      let newRegion = this.migrate(regions,region);
+      console.log(`Some people from ${this._name} have migrated to ${newRegion._id}`)
+      
       //POPULATION DIES OF STARVATION OR LOOKS FOR NEW FOOD SOURCE
-      console.log(`${-this._food} people died of starvation or went looking for new food`);
-      this._population += this._food;
+      // console.log(`${-this._food} people died of starvation or went looking for new food`);
+      // this._population += this._food;
       //FOOD STORE IS BACK TO 0
       this._food = 0;
     }
@@ -170,15 +210,17 @@ export class Band extends Polity {
       // 5. PRAY
   }
 
-  act(tile) {
+  act(regions,region) {
+    
+    
     // 1. FORAGE FOOD
-    this.forage(tile);
+    this.forage(region);
     // 2. CONSUME FOOD
     this.eat();
     // 3. FREE ACTION
     this.freeAction();
     // 4. STORE FOOD
-    this.storeFood();
+    this.storeFood(regions,region);
 
 
   }

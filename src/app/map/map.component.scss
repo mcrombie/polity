@@ -1,6 +1,12 @@
 @import '../../styles.scss';
-.tile-container{
+.map-container{
     @include center-horizontal-vertical;
+    display:flex;
+    flex-direction: row;
+
+}
+
+.tile-container{
     display:grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;

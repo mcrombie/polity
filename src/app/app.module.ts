@@ -7,16 +7,16 @@ import { TestComponent } from './test-comp.component';
 import { TileComponent } from './tile/tile.component';
 import { TestComponentService } from './test-comp.service';
 import { TileComponentService } from './tile/tile.service';
-import { PolityComponent } from './polity/polity.component';
 import { MapComponent } from './map/map.component';
+import { ControlsComponent } from './controls/controls.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TestComponent,
     TileComponent,
-    PolityComponent,
-    MapComponent
+    MapComponent,
+    ControlsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,13 +1,37 @@
 
 
-<div class="tile-container">
-    <app-tile></app-tile>
-    <app-tile></app-tile>
-    <app-tile></app-tile>
-    <app-tile></app-tile>
-    <app-tile></app-tile>
-    <app-tile></app-tile>
-    <app-tile></app-tile>
-    <app-tile></app-tile>
-    <app-tile></app-tile>
+<div class="map-container">
+
+    <!-- yourChild._polity.act(yourChild); yourChild._polity.populationGrowth(); -->
+    <button id="forwardOneYear" (click)="forwardOneYear()">Forward One Year</button>
+
+    <div class="tile-container">
+        <!-- USE THIS FOR DYNAMIC MAP BUILDING LATER -->
+             <!-- <app-tile *ngFor="let tile of numberOfTiles" [_id]="tile"></app-tile> -->
+       
+        <!-- <app-tile (selectedPolity)="recievePolity($event)" [_id]="'A1'" [_polity]="noPolity"></app-tile>
+        <app-tile  [_id]="'A2'" [_polity]="noPolity"></app-tile>
+        <app-tile (selectedPolity)="recievePolity($event)" [_id]="'A3'" [_polity]="noPolity"></app-tile>
+        <app-tile (selectedPolity)="recievePolity($event)" [_id]="'B1'" [_polity]="noPolity"></app-tile>
+        <app-tile (selectedPolity)="recievePolity($event)" [_id]="'B2'" [_polity]="polities[0]"></app-tile>
+        <app-tile (selectedPolity)="recievePolity($event)" [_id]="'B3'" [_polity]="noPolity"></app-tile>
+        <app-tile (selectedPolity)="recievePolity($event)" [_id]="'C1'" [_polity]="noPolity"></app-tile>
+        <app-tile (selectedPolity)="recievePolity($event)" [_id]="'C2'" [_polity]="noPolity"></app-tile>
+        <app-tile (selectedPolity)="recievePolity($event)" [_id]="'C3'" [_polity]="noPolity"></app-tile> -->
+        
+        <app-tile (selectedPolity)="recievePolity($event)" *ngFor="let region of regions" [_region]="region"></app-tile>
+
+    </div>
+
+    <div class="tile-statistics">
+        <!-- <div class="stat">ID: {{this.selectedPolity._id}}</div> -->
+    </div>
+
+    <div class="polity-statistics">
+        <div class="stat">Name: {{this.selectedPolity._name}}</div>
+        <div class="stat">Population: {{this.selectedPolity._population}}</div>
+        <div class="stat">Food: {{this.selectedPolity._food}}</div>
+        <div class="stat">Growth Rate: {{this.selectedPolity._growthRate}}</div>
+    </div>
+
 </div>
