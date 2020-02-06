@@ -10,6 +10,7 @@ import { Region } from '../region/region';
 
 export class TileComponent implements OnInit {
   @Input() public _region: Region;
+  public trees = Array.from(Array(1).keys());
 
 
   //@Output() tileInformation = new EventEmitter<TileComponent>();

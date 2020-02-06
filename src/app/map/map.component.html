@@ -1,9 +1,18 @@
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <div class="map-container">
 
     <!-- yourChild._polity.act(yourChild); yourChild._polity.populationGrowth(); -->
-    <button id="forwardOneYear" (click)="forwardOneYear()">Forward One Year</button>
+    <div class="global-info">
+        <h2>Year: {{year}}</h2>
+        <i class="fa fa-male" aria-hidden="true"></i>
+        <i class="fa fa-home" aria-hidden="true"></i>
+        <i class="fa fa-tree" aria-hidden="true"></i>
+
+        <button id="forwardOneYear" (click)="forwardYears(1)">Forward One Year</button>
+        <button id="forwardTenYear" (click)="forwardYears(10)">Forward Ten Years</button>
+    </div>
+    
 
     <div class="tile-container">
         <!-- USE THIS FOR DYNAMIC MAP BUILDING LATER -->
@@ -19,7 +28,9 @@
         <app-tile (selectedPolity)="recievePolity($event)" [_id]="'C2'" [_polity]="noPolity"></app-tile>
         <app-tile (selectedPolity)="recievePolity($event)" [_id]="'C3'" [_polity]="noPolity"></app-tile> -->
         
-        <app-tile (selectedPolity)="recievePolity($event)" *ngFor="let region of regions" [_region]="region"></app-tile>
+        <app-tile (selectedPolity)="recievePolity($event)" *ngFor="let region of regions" [_region]="region">
+            
+        </app-tile>
 
     </div>
 

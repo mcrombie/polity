@@ -4,8 +4,7 @@
 /* --------------------------------- */
 /* VARIABLES */
 /* --------------------------------- */
-$tile-size:5rem;
-$tile-color: rgb(19, 83, 19);
+$tile-size:8rem;
 
 /* --------------------------------- */
 /* TILES */
@@ -13,13 +12,22 @@ $tile-color: rgb(19, 83, 19);
 
 
 .tile{
-    background-color:$tile-color;
+    position:relative;
+    
     width:$tile-size;
     height:$tile-size;
+    border:solid black 1.5px;
     
 }
 
+.continental{background-color:#1abc9c;}
+.temperate{background-color:#27ae60;}
+
 .tile:hover{
     cursor:pointer;
-    background-color: lighten($tile-color, 10);
+    background-color: grey;
+}
+
+.icon{
+    @include center-horizontal-vertical;
 }

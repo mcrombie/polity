@@ -3,11 +3,18 @@
     @include center-horizontal-vertical;
     display:flex;
     flex-direction: row;
+    background-color:rgb(62, 62, 255);
+    color:white;
 
+}
+.global-info{
+    display:flex;
+    flex-direction: column;
 }
 
 .tile-container{
     display:grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    
 }

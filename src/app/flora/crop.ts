@@ -1,0 +1,7 @@
+class Crop{
+    constructor(){
+
+    }
+
+    
+}

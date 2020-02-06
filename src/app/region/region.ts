@@ -1,20 +1,27 @@
 import { Polity, Band } from '../polity/polity';
 
 
-const DEFAULT_SPACE: number = 10;
-const DEFAULT_MAX_FORAGE_YIELD = 100;
+
+
 
 export class Region {
   public _polity:Polity;
   public _settled:boolean;
   private _space: number;
-  private _maxForageYield;
+  public _forageYield;
+  public _farmYield;
+  public _maxForageYield;
+  public _maxFarmYield;
+  public _tileColor:string;
   constructor(public _id: string) {
     this._id = _id;
     this._polity = new Polity();
     this._settled = this.checkIfSettled();
-    this._space = DEFAULT_SPACE;
-    this._maxForageYield = DEFAULT_MAX_FORAGE_YIELD;
+    this._forageYield = 0;
+    this._farmYield = 0;
+    this._maxForageYield = 0;
+    this._maxFarmYield = 0;
+    this._tileColor = "abstract";
   }
 
   //GETTERS AND SETTERS FOR PRIVATE PROPERTIES
@@ -25,9 +32,10 @@ export class Region {
   get maxForageYield() { return this._maxForageYield };
   set maxForageYield(value) { this._maxForageYield = value; };
 
-  //RESET SPACE
-  resetSpace() {
-    this.space = DEFAULT_SPACE;
+
+  replenishFood(){
+    this._forageYield += 0;
+    this._farmYield += 0;
   }
 
   //CHECK IF SETTLED
