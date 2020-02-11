@@ -4,5 +4,5 @@ export class Visual {
     }
 }
 
-export const forestVisual:Visual = new Visual("fa-tree");
-export const bandVisual:Visual = new Visual("fa-male");
+export const forestVisual:Visual = new Visual("fa-tree forest");
+export const bandVisual:Visual = new Visual("fa-male band");

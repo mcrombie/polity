@@ -3,46 +3,46 @@
 <div class="map-container">
 
     <!-- yourChild._polity.act(yourChild); yourChild._polity.populationGrowth(); -->
-    <div class="global-info">
-        <h2>Year: {{year}}</h2>
-        <i class="fa fa-male" aria-hidden="true"></i>
-        <i class="fa fa-home" aria-hidden="true"></i>
-        <i class="fa fa-tree" aria-hidden="true"></i>
+    <div class="data-display">
+        <div class="data-display__container">
+            <h2 class="data-display__title">Global Statistics</h2>
+            <div class="data-display__global-data">Year: {{year}}</div>
+            <div class="data-display__global-data">Population: {{globalPopulation()}}</div>
+            <div class="data-display__global-data">Food Yielded: {{globalFoodYielded()}}</div>
+            <div class="data-display__global-data">Food Stored: {{globalFoodStored()}}</div>
+            <div class="data-display__global-data">Total Food: {{globalFoodYielded() + globalFoodStored()}}</div>
 
-        <button id="forwardOneYear" (click)="forwardYears(1)">Forward One Year</button>
-        <button id="forwardTenYear" (click)="forwardYears(10)">Forward Ten Years</button>
+        </div>
+        <div class="data-display__container">
+            <h2 class="data-display__title">Polity Statistics</h2>
+            <div class="data-display__polity-data">Name: {{selectedPolity._name}}</div>
+            <div class="data-display__polity-data">Population: {{selectedPolity._population}}</div>
+            <div class="data-display__polity-data">Food Yielded: {{selectedPolity._region._foodYield}}</div>
+            <div class="data-display__polity-data">Food Stored: {{selectedPolity._foodStored}}</div>
+            <div class="data-display__polity-data">Total Food: {{selectedPolity._region._foodYield + selectedPolity._foodStored}}</div>
+            <div class="data-display__polity-data">Farming Level: {{selectedPolity._farmingLevel}}</div>
+            <!-- <div class="stat">ID: {{this.selectedPolity._id}}</div> -->
+        </div>
     </div>
+
     
 
     <div class="tile-container">
-        <!-- USE THIS FOR DYNAMIC MAP BUILDING LATER -->
-             <!-- <app-tile *ngFor="let tile of numberOfTiles" [_id]="tile"></app-tile> -->
-       
-        <!-- <app-tile (selectedPolity)="recievePolity($event)" [_id]="'A1'" [_polity]="noPolity"></app-tile>
-        <app-tile  [_id]="'A2'" [_polity]="noPolity"></app-tile>
-        <app-tile (selectedPolity)="recievePolity($event)" [_id]="'A3'" [_polity]="noPolity"></app-tile>
-        <app-tile (selectedPolity)="recievePolity($event)" [_id]="'B1'" [_polity]="noPolity"></app-tile>
-        <app-tile (selectedPolity)="recievePolity($event)" [_id]="'B2'" [_polity]="polities[0]"></app-tile>
-        <app-tile (selectedPolity)="recievePolity($event)" [_id]="'B3'" [_polity]="noPolity"></app-tile>
-        <app-tile (selectedPolity)="recievePolity($event)" [_id]="'C1'" [_polity]="noPolity"></app-tile>
-        <app-tile (selectedPolity)="recievePolity($event)" [_id]="'C2'" [_polity]="noPolity"></app-tile>
-        <app-tile (selectedPolity)="recievePolity($event)" [_id]="'C3'" [_polity]="noPolity"></app-tile> -->
-        
-        <app-tile (selectedPolity)="recievePolity($event)" *ngFor="let region of regions" [_region]="region">
-            
-        </app-tile>
+        <app-tile (selectedPolity)="recievePolity($event)" *ngFor="let region of regions" [_region]="region"></app-tile>
+    </div>
+
+    <div class="control-panel">
+        <h2 class="control-panel__title">Control Panel</h2>
+        <div class="control-panel__button-container">
+            <button id="forwardOneYear" class="control-panel__btn" (click)="forwardYears(1)">Forward One Year</button>
+            <button id="forwardTenYear" class="control-panel__btn" (click)="forwardYears(10)">Forward Ten Years</button>
+            <button id="forwardTenYear" class="control-panel__btn" (click)="forwardYears(100)">Forward One Hundred Years</button>
+        </div>
 
     </div>
 
-    <div class="tile-statistics">
-        <!-- <div class="stat">ID: {{this.selectedPolity._id}}</div> -->
-    </div>
-
-    <div class="polity-statistics">
-        <div class="stat">Name: {{this.selectedPolity._name}}</div>
-        <div class="stat">Population: {{this.selectedPolity._population}}</div>
-        <div class="stat">Food: {{this.selectedPolity._food}}</div>
-        <div class="stat">Growth Rate: {{this.selectedPolity._growthRate}}</div>
-    </div>
+    <!-- <i class="fa fa-male" aria-hidden="true"></i>
+    <i class="fa fa-home" aria-hidden="true"></i>
+    <i class="fa fa-tree" aria-hidden="true"></i> -->
 
 </div>

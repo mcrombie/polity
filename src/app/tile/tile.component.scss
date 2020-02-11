@@ -4,7 +4,7 @@
 /* --------------------------------- */
 /* VARIABLES */
 /* --------------------------------- */
-$tile-size:8rem;
+$tile-size:10rem;
 
 /* --------------------------------- */
 /* TILES */
@@ -20,8 +20,12 @@ $tile-size:8rem;
     
 }
 
-.continental{background-color:#1abc9c;}
-.temperate{background-color:#27ae60;}
+.tropical{background-color:$color-tropical;}
+.dry{background-color:$color-dry;}
+.temperate{background-color:$color-temperate;}
+.continental{background-color:$color-continental;}
+.polar{background-color:$color-polar;}
+
 
 .tile:hover{
     cursor:pointer;
@@ -30,4 +34,12 @@ $tile-size:8rem;
 
 .icon{
     @include center-horizontal-vertical;
+}
+
+.band{
+    color:blue;
+}
+
+.forest{
+    color:green;
 }

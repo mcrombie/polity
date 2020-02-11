@@ -1,47 +1,51 @@
-import { Polity, Band } from '../polity/polity';
-
-
-
-
+import { Polity } from '../polity/polity';
+import { Climate } from './climate';
+import { NoPolity } from '../polity/noPolity';
 
 export class Region {
-  public _polity:Polity;
+  /* --------------------------------- */
+  /* 1. CONSTRUCTOR AND PROPERTIES */
+  /* --------------------------------- */
   public _settled:boolean;
-  private _space: number;
-  public _forageYield;
-  public _farmYield;
-  public _maxForageYield;
-  public _maxFarmYield;
-  public _tileColor:string;
-  constructor(public _id: string) {
+  public _maxFoodYield:number;
+  public _foodYield:number;
+  public _foodYieldReplenish:number;
+  public _farmingYield:number;
+
+
+  public _climateType:string;
+  constructor(private _id: string, public _climate:Climate, public _polity:Polity) {
     this._id = _id;
-    this._polity = new Polity();
-    this._settled = this.checkIfSettled();
-    this._forageYield = 0;
-    this._farmYield = 0;
-    this._maxForageYield = 0;
-    this._maxFarmYield = 0;
-    this._tileColor = "abstract";
+    this._polity = _polity;
+    this._settled = this._polity._settled; //DOES THIS MAKE SENSE TO DO?
+    this._maxFoodYield = _climate.naturalMaxFoodYield;
+    this._foodYield = _climate.naturalMaxFoodYield;
+    this._foodYieldReplenish = _climate.naturalFoodYieldReplenish;
+    this._climateType = _climate.type;
+    this._farmingYield = 0;
   }
 
-  //GETTERS AND SETTERS FOR PRIVATE PROPERTIES
+  /* --------------------------------- */
+  /* 2. GETTERS AND SETTERS */
+  /* --------------------------------- */
   get id() { return this._id };
   set id(value) { this._id = value; };
-  get space() { return this._space };
-  set space(value) { this._space = value; };
-  get maxForageYield() { return this._maxForageYield };
-  set maxForageYield(value) { this._maxForageYield = value; };
 
+
+  /* --------------------------------- */
+  /* 3. METHODS FOR FOOD */
+  /* --------------------------------- */
 
   replenishFood(){
-    this._forageYield += 0;
-    this._farmYield += 0;
+    // 1. NATURAL GROWTH
+    this._foodYield += this._foodYieldReplenish;
+    if(this._foodYield > this._maxFoodYield) this._foodYield = this._maxFoodYield;
+
+    //2. AGRICULTURAL GROWTH
+    this._foodYield += this._farmingYield;
+    this._farmingYield = 0; 
   }
 
-  //CHECK IF SETTLED
-  checkIfSettled(){
-    return typeof this._polity === 'undefined' ? false: true;
-  }
 
 }
 

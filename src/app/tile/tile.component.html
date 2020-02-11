@@ -1,11 +1,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-<div class="tile {{_region._tileColor}}" (click)='clicked()'>
+<div class="tile {{_region._climateType}} {{_region._polity._polityType}}" (click)='clicked()'>
     <p>{{_region._id}}</p>
-    <p>{{_region._polity._name}}</p>
-    <p>{{_region._forageYield}}</p>
-    <p>{{_region._polity.getFlooredPopulation()}}</p>
+    <p>{{_region._polity._name}} - {{_region._polity.getFlooredPopulation()}}</p>
+    <p>FL - {{_region._polity._farmingLevel}}</p>
+    <p>Food - {{_region._foodYield}}</p>
     <i class="icon fa {{_region._polity._visual._icon}}" aria-hidden="true"></i>
     <!-- <i class="icon fa fa-tree" *ngFor="let tree of trees" aria-hidden="true"></i> -->
 </div>

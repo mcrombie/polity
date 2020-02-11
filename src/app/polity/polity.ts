@@ -6,80 +6,74 @@ import {shuffle} from '../helper';
 // INTERFACE AND CLASS EXPERIMENTION PER MOSH TUTORIAL 1/27/20
 
 export class Polity {
-  public _settled:boolean;
-  public _population: number; 
-  public _food: number;
-  public _visual:Visual;
+  /* --------------------------------- */
+  /* 1. PROPERTIES AND CONSTRUCTOR 
+  -- This is an abstract class never to be used -- 
+  -- 所以请问不用 --*/
+  /* --------------------------------- */
   public _name?: string;
-  public _health:number;
-  public _happiness:number;
   private _polityType: string;
-  private _birthRate: number;
-  private _infantMortality: number;
-  private _growthRate: number;
-  public _mortalityRate:number;
-  public _migrationPossible:boolean;
-  public foodYielded: number;
+
+  public _region:Region;
+
   public _hasMoved:boolean;
+  public _settled:boolean;
+  public _partOfMainArray:boolean;
+
+  public _population: number; 
+  private _growthRate: number;
+  
+  public _foodYielded:number;
+  public _foodStored: number;
+  public _foodStorageCapacity:number;
+  
+  public _farmingLevel:number;
+
+  public _visual:Visual;
+
+  
 
   constructor() {
-    this._visual = forestVisual;
-    this._name = ".";
+    this._name = '';
+    this.polityType = 'None';
+    this._hasMoved = false;
     this._settled = false;
-    this._polityType = 'polity';
-    this._health = 50; //scale of 1 - 100 - basically life expectancy of 50
-    this._happiness = 5; //scale of 1 - 10
-    this._birthRate = this.calculateBirthRate();
-    this._infantMortality = .5; //assuming half of all babies don't make it
-    this._growthRate = this.calculateGrowthRate();
-    this._mortalityRate = this.calculateMortalityRate();
-    this._migrationPossible = true;
-    this._hasMoved=false;
-
+    this._population = 0;
+    this.growthRate = 0;
+    this._foodYielded = 0;
+    this._foodStored = 0;
+    this._foodStorageCapacity = 0;
+    this._farmingLevel = 0;
+    this._visual = forestVisual;
+    this._partOfMainArray = false;
   }
 
-  //GETTERS AND SETTERS FOR PRIVATE PROPERTIES
+  /* --------------------------------- */
+  /* 2. GETTERS AND SETTERS */
+  /* --------------------------------- */
   get polityType() { return this._polityType };
   set polityType(value) { this._polityType = value; };
   get growthRate() { return this._growthRate };
   set growthRate(value) { this._growthRate = value; };
-  get birthRate() { return this._birthRate };
-  set birthRate(value) { this._birthRate = value; };
 
 
-  //DISPLAY DETAILS
+  /* --------------------------------- */
+  /* 3. DATA DISPLAY */
+  /* --------------------------------- */
   details() {
     console.log(`This is the ${this.polityType} of ${this._name}. It has ${this._population} people. 
-    They currently have ${this._food} food. Their growth rate is ${this.growthRate}.`);
+    They currently have ${this._foodStored} food. Their growth rate is ${this.growthRate}.`);
   }
 
-  //BIRTH RATE FORMULA
-  calculateBirthRate() {
-    let foodSurplus;
-    this._food > 0 ? foodSurplus = this._food/100: foodSurplus = 0;
-    return ((this._population / 2) / 2) + foodSurplus; //assuming each woman is having a child every other year
-  }
 
-  //GROWTH RATE FORMULA
-  calculateGrowthRate() {
-    let infantSurvival = (this._birthRate) * (this._infantMortality);
-    let gr = Math.log10((this._population + infantSurvival) / this._population);
-    gr -= this._mortalityRate; //how many people died
-    return gr;
-  }
-
-  calculateMortalityRate(){
-    return (1/ this._health);
-  }
-
-  //POPULATION GROWTH FORMULA
+  /* --------------------------------- */
+  /* 4. HANDLING DEMOGRAPHIC */
+  /* --------------------------------- */
   populationGrowth() {
-    //ADJUST GROWTH RATE
-    this._birthRate = this.calculateBirthRate();
-    this._growthRate = this.calculateGrowthRate();
-    this._mortalityRate = this.calculateMortalityRate();
-    let np = this._population * (Math.exp(this._growthRate * 1)); //add Math.floor? and time
-    this._population = np;
+    for (let i = 1; i <= this._population; i++){
+      let r = Math.random();
+      if(r <= this._growthRate) {this._population++;}; //too inefficient?
+    }
   }
 
   //ROUNDED DOWN POPULATION...YOU CAN'T HAVE FRACTIONAL PEOPLE
@@ -87,6 +81,9 @@ export class Polity {
     return Math.floor(this._population);
   }
 
+  /* --------------------------------- */
+  /* 5. HANDLING REGIONS */
+  /* --------------------------------- */
   searchForFreeNeighboringRegions(regions, region){
     // 1. ARRAY OF 8 NEIGHBORING REGIONS
     let regionOptionIDs = [
@@ -116,93 +113,113 @@ export class Polity {
     return regionOptions;
   }
 
-  freeAction(regions,region){
-
-  }
-
-  //METHOD ENCAPSULATING ALL ACTIONS BY THE POLITY
-  act(regions, region) {
-    //console.log(`This ${this.polityType} is too abstract to do anything on Tile-${tile.id}`);
-  }
-
-  // FORAGE SOCIETY POTENTIAL ACTIONS
-  doNothing(){
-    //...they lounge about doing nothing of interest. Make this contribute to happiness later on
-  }
-
-  findHighestYieldingRegion(regions:Region[], method:string){
+  findHighestYieldingRegion(regions:Region[]){
     let highestYield = 0;
     let chosenRegion:Region;
     let shuffledRegions = shuffle(regions);
     for(let i=0; i < shuffledRegions.length; i++){
-      let regionYield = shuffledRegions[i]._forageYield;
+      let regionYield = shuffledRegions[i]._foodYield;
 
       if(regionYield > highestYield){
         highestYield = regionYield;
         chosenRegion = shuffledRegions[i];
       } 
     }
+    
     return chosenRegion;
   }
 
-  migrate(regions,region){
-    // 1. Search 8 surrounding tiles beginning with a random direction for first unsettled tile
-    let newRegionOptions = this.searchForFreeNeighboringRegions(regions,region);
+  migrate(oldRegion,newRegion, polity){
+    oldRegion._polity = new Polity();
+    newRegion._polity = polity;
+    polity._region = newRegion;
+  }
 
-    // 2. If you can't find a new region this fails
-    if(newRegionOptions.length < 1){
-      // If no migration is possible, set a boolean for polity declaring migration impossible
-      // Boolean will keep polity from choosing migration next year
-      this._migrationPossible = false;
-    }
-    else{
-      // 3. Select which region has the most value
-      let newRegion = this.findHighestYieldingRegion(newRegionOptions, "forage");
-      // 4. If the potential new region is more valuable than the current, move it there, otherwise stay in current region
-      if(newRegion._forageYield >= region._forageYield){
-        region._polity = new Polity();
-        newRegion._polity = this;
-        return newRegion
-      } 
+  foodStorage(){
+    if(this._foodStored < this._foodStorageCapacity){
+      let foodStorageSpaceRemaining = this._foodStorageCapacity - this._foodStored;
+      if(this._region._foodYield >= foodStorageSpaceRemaining){
+        this._foodStored += foodStorageSpaceRemaining;
+        this._region._foodYield -= foodStorageSpaceRemaining;
+      }
       else{
-        return region;
+        this._foodStored += this._region._foodYield;
+        this._region._foodYield = 0;
       }
     }
+  }
+
+
+
+  forage() {
+    // 1A. REGION HAS ENOUGH FOOD FOR POPULATION
+    if(this._population <= this._region._foodYield){
+      // POLITY CONSUMES WHAT THEY NEED
+      this._foodYielded = this._population;
+      this._region._foodYield -= this._foodYielded;
+      // FOOD STORAGE
+      this.foodStorage();
+      // MAKE SURE FOOD STORED DOES NOT EXCEED CAPACITY
+      if (this._foodStored > this._foodStorageCapacity){this._foodStored = this._foodStorageCapacity;};
+    }
+    // 1B. REGION DOES NOT HAVE ENOUGH FOOD FOR POPULATION
+    else{
+      this._foodYielded = this._region._foodYield;
+      this._region._foodYield -= this._foodYielded;
+    }
+    console.log(`Food stored is ${this._foodStored}`);
+  }
+
+  farm(){
+    // FARMING FUNCTION HERE
+    // FINISH REGION FIRST
+    let r = (Math.random() * this._farmingLevel) / 100;
+    let farmingYield = Math.floor(r * this._region._foodYieldReplenish * this._population);
+    this.upgradeFarmingLevel(farmingYield);
+    this._region._farmingYield =  farmingYield;
+    console.log(`${this._name} farmed ${farmingYield} food.`)
+  }
+
+  upgradeFarmingLevel(farmingYield){
+    let newLevel:number = 1;
+    if(farmingYield >= 1){newLevel = 2;}
+    if(farmingYield >= 2){newLevel = 3;}
+    if(farmingYield >= 4){newLevel = 4;}
+    if(farmingYield >= 8){newLevel = 5;}
+    if(farmingYield >= 16){newLevel = 6;}
+    if(farmingYield >= 32){newLevel = 7;}
+    if(farmingYield >= 64){newLevel = 8;}
+    if(farmingYield >= 128){newLevel = 9;}
+    if(farmingYield >= 256){newLevel = 10;}
+    if(this._farmingLevel < newLevel){this._farmingLevel = newLevel;}
+    this.upgradeFoodStorageCapacity();
+    
+  }
+
+  upgradeFoodStorageCapacity(){
+    if(this._farmingLevel == 1){this._foodStorageCapacity = 0;}
+    if(this._farmingLevel == 2){this._foodStorageCapacity = 1;}
+    if(this._farmingLevel == 3){this._foodStorageCapacity = 2;}
+    if(this._farmingLevel == 4){this._foodStorageCapacity = 4;}
+    if(this._farmingLevel == 5){this._foodStorageCapacity = 8;}
+    if(this._farmingLevel == 6){this._foodStorageCapacity = 16;}
+    if(this._farmingLevel == 7){this._foodStorageCapacity = 32;}
+    if(this._farmingLevel == 8){this._foodStorageCapacity = 64;}
+    if(this._farmingLevel == 9){this._foodStorageCapacity = 128;}
+    if(this._farmingLevel == 10){this._foodStorageCapacity = 256;}
 
   }
 
-  splitBand(){
-    // // 5. Transfer polity to first unsettled tile
-    // let newPolityName = chicagoDogNames.popRandomName();
-    // let newPolityPopulation = this._population/2;
-    // //Add new polity to region
-    // newRegion._polity = new Band(newRegion, newPolityPopulation, 0, newPolityName);
-    // // Remove corresponding population from old region
-    // this._population -= newPolityPopulation;
-    // console.log(`The ${newRegion._polity._polityType} of ${newRegion._polity._name} from the 
-    // ${this._polityType} of  ${this._name} has settled the region of ${newRegion._id}`);
-  }
+  /* --------------------------------- */
+  /* 7. ACTION METHOD
+  -- THIS WILL BE DEPENDENT ON POLITY TYPE */
+  /* --------------------------------- */
 
-  forage(region) {
-    let yieldFactor = 1.1;
-    let potentialYield = (this._population * yieldFactor);
-    //FORAGE FOOD
-    this.foodYielded = (potentialYield <= region._forageYield) ? potentialYield : region._forageYield;
-    region._forageYield -= this.foodYielded;
-    this._food += this.foodYielded;
+  act(regions){}
 
-    //console.log(`${this._name} yielded ${this.foodYielded} while foraging ${region._id}.`);
-  }
-
-  farm(region){
-    let yieldFactor = 1.3;
-    let potentialYield = (this._population * yieldFactor);
-    //FARM FOOD
-    this.foodYielded = (potentialYield <= region._maxFarmYield) ? potentialYield : region._maxFarmYield;
-    this._food += this.foodYielded;
-
-    //console.log(`${this._name} yielded ${this.foodYielded} with farming.`);
-  }
+  /* --------------------------------- */
+  /* 8. FUTURE FUNCTIONALITY */
+  /* --------------------------------- */
 
   attack(){
     // 1. Search 8 surrounding tiles randomly for first settled tile
@@ -225,89 +242,6 @@ export class Polity {
       // attracts settlers?
       // somehow leads to farming?
       // better combat strength?
-  }
-
-}
-
-/*******************
- * BAND POLITY
- *******************/
-export class Band extends Polity {
-  
-  public storageCapacity:number;
-  constructor(public _region:Region, public _population: number, public _food: number,
-    public _name?: string) {
-    super();
-    this._visual = bandVisual;
-    this._settled = true;
-    this.polityType = 'band';
-    this.storageCapacity = .01; //they can only save 1/100th of extra food
-  }
-
-
-
-  eat() {
-    this._food -= this._population;
-  }
-
-  storeFood() {
-    //ESSENTIALLY JUST CAPPING FOOD CARRIED OVER FROM ONE YEAR TO ANOTHER FOR NOW
-
-    //INCASE THERE IS NOT ENOUGH FOOD, STARVE
-    if (this._food < 0) {
-
-      console.log(`In ${this._name}, ${-this._food} people died of starvation or went looking for new food`);
-      this._population += this._food;
-      //FOOD STORE GOES BACK TO 0 BECAUSE IT CANNOT BE NEGATIVE
-      this._food = 0;
-      
-      
-    }
-    //THEY STORE WHAT FOOD THEY CAN
-    else{
-      this._food = (this.foodYielded - this._population) * this.storageCapacity;
-    }
-  }
-
-  freeAction(regions,region) {
-      // 1. DO NOTHING
-      // 2. MIGRATE
-      if(region._forageYield <= this._population){
-        let newRegionOptions = this.searchForFreeNeighboringRegions(regions,region);
-        // console.log(newRegionOptions);
-        let newRegion = this.findHighestYieldingRegion(newRegionOptions, "forage");
-        // console.log(`migrated to ${newRegion._id}`);
-        // If the potential new region is more valuable than the current, move it there, otherwise stay in current region
-        if(newRegion._forageYield >= region._forageYield){
-          region._polity = new Polity();
-          newRegion._polity = this;
-        } 
-      }
-
-      // 3. FARM
-      // 4. ATTACK
-      // 5. PRAY
-  }
-
-
-  dieOff(){
-
-  }
-
-  act(regions,region) {
-    // 1. FORAGE FOOD
-    this.forage(region);
-    // 2. CONSUME FOOD
-    this.eat();
-    // 3. FREE ACTION
-    this.freeAction(regions,region);
-    // 4. STORE FOOD
-    this.storeFood();
-    // 5. ANNUAL DEATH RATE
-    this.dieOff();
-    this._hasMoved = true;
-
-
   }
 
 }

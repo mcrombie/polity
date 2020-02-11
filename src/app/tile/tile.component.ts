@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Polity, Band } from '../polity/polity';
+import { Polity} from '../polity/polity';
 import { Region } from '../region/region';
 
 @Component({
@@ -25,7 +25,7 @@ export class TileComponent implements OnInit {
 
 
   clicked() {
-    console.log(`Region ID-${this._region._id} with polity of ${this._region._polity._name}.`);
+    console.log(`Region ID-${this._region.id} with polity of ${this._region._polity._name}.`);
     this.selectedPolity.emit(this._region._polity);
     //console.log(`YOU CLICKED TILE-${this._id}! It has a polity of ${this._polity._name} and a food store of ${this._polity._food}`);
   }

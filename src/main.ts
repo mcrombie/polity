@@ -4,7 +4,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
-import {Polity, Band} from './app/polity/polity';
+import {Polity} from './app/polity/polity';
 
 if (environment.production) {
   enableProdMode();
