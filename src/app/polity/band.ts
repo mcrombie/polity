@@ -37,9 +37,7 @@ export class Band extends Polity {
     bandSplit(regions, region, population) {
         let newBand = new Band(region, chicagoDogNames.popRandomName(), population, false);
         region._polity = newBand;
-        console.log(region._polity._population + " is new band's population")
         region._polity.act(regions);
-        console.log(region._polity._population + " is new band's population")
     }
 
     /* --------------------------------- */
@@ -71,6 +69,7 @@ export class Band extends Polity {
                 let minToMigrate = hungryPeople;
                 let newBandSize = Math.floor((Math.random() * (Math.floor(this._population / 2))) + minToMigrate);
                 let newRegion = this.findHighestYieldingRegion(newRegionOptions);
+                console.log(`Band splitting to ${newRegion}!`)
                 this.bandSplit(regions, newRegion, newBandSize);
                 this._population -= newBandSize;
             }
@@ -104,7 +103,7 @@ export class Band extends Polity {
         else {
             let newRegion = this.findHighestYieldingRegion(newRegionOptions);
             // 3A. IF THIS REGION YIELDS MORE FOOD THAN THE CURRENT, MOVE THERE
-            if (newRegion._foodYield >= this._region._foodYield) {
+            if (newRegion !== undefined && newRegion._foodYield >= this._region._foodYield) {
                 this.migrate(this._region, newRegion, this);
             }
             // 3B. IF THIS REGION YIELDS LESS THAN THE CURRENT, FARM WHERE YOU ARE

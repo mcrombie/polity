@@ -12,6 +12,9 @@ export class Region {
   public _foodYieldReplenish:number;
   public _farmingYield:number;
 
+  public _borders:string[];
+
+
 
   public _climateType:string;
   constructor(private _id: string, public _climate:Climate, public _polity:Polity) {
@@ -23,6 +26,7 @@ export class Region {
     this._foodYieldReplenish = _climate.naturalFoodYieldReplenish;
     this._climateType = _climate.type;
     this._farmingYield = 0;
+    this._borders = ['none', 'none', 'none', 'none'];
   }
 
   /* --------------------------------- */

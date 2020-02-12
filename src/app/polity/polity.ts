@@ -44,7 +44,7 @@ export class Polity {
     this._foodStored = 0;
     this._foodStorageCapacity = 0;
     this._farmingLevel = 0;
-    this._visual = forestVisual;
+    this._visual = new Visual('');
     this._partOfMainArray = false;
   }
 
@@ -115,8 +115,8 @@ export class Polity {
 
   findHighestYieldingRegion(regions:Region[]){
     let highestYield = 0;
-    let chosenRegion:Region;
-    let shuffledRegions = shuffle(regions);
+    let shuffledRegions:Region[] = shuffle(regions);
+    let chosenRegion:Region = shuffledRegions[0];
     for(let i=0; i < shuffledRegions.length; i++){
       let regionYield = shuffledRegions[i]._foodYield;
 
@@ -125,7 +125,7 @@ export class Polity {
         chosenRegion = shuffledRegions[i];
       } 
     }
-    
+    console.log(chosenRegion.id);
     return chosenRegion;
   }
 

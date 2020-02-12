@@ -4,7 +4,7 @@
 /* --------------------------------- */
 /* VARIABLES */
 /* --------------------------------- */
-$tile-size:10rem;
+
 
 /* --------------------------------- */
 /* TILES */
@@ -13,10 +13,8 @@ $tile-size:10rem;
 
 .tile{
     position:relative;
-    
     width:$tile-size;
     height:$tile-size;
-    border:solid black 1.5px;
     
 }
 
@@ -25,6 +23,7 @@ $tile-size:10rem;
 .temperate{background-color:$color-temperate;}
 .continental{background-color:$color-continental;}
 .polar{background-color:$color-polar;}
+.ocean{background-color:$color-water;}
 
 
 .tile:hover{
@@ -42,4 +41,46 @@ $tile-size:10rem;
 
 .forest{
     color:green;
+}
+
+/* --------------------------------- */
+/* BORDERS */
+/* --------------------------------- */
+// .north-river{border-top: .1rem solid $color-ocean-background;}
+// .east-river{border-right: .1rem solid $color-ocean-background;}
+// .south-river{border-bottom: .1rem solid $color-ocean-background;}
+// .west-river{border-left: .1rem solid $color-ocean-background;}
+
+.north-river{
+    position:absolute;
+    top:0;
+    height:1px;
+    width:$tile-size;
+    background-color: $color-water;
+}
+.east-river{
+    position:absolute;
+    top:0;
+    right:0;
+    height:$tile-size;
+    width:1px;
+    background-color: $color-water;
+
+}
+
+.south-river{
+    position:absolute;
+    bottom:0;
+    height:1px;
+    width:$tile-size;
+    background-color: $color-water;
+}
+.west-river{
+    position:absolute;
+    top:0;
+    left:0;
+    height:$tile-size;
+    width:1px;
+    background-color: $color-water;
+
 }

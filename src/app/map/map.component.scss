@@ -5,7 +5,7 @@
     flex-direction: row;
     background-color:$color-ocean-background;
     color:white;
-    width:80rem;
+    width:100rem;
 
 }
 
@@ -35,10 +35,13 @@
 
 
 .tile-container{
-    width:50%;
     display:grid;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows:repeat(12, $tile-size);
+    grid-template-columns: repeat(12, $tile-size);
+    grid-column-gap:0;
+    grid-row-gap:0;
+    width:50%;
+    height:60rem;
     
 }
 
