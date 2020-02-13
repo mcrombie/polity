@@ -9,13 +9,16 @@ app.use(express.static(__dirname + '/dist'));
 // Heroku port
 app.listen(process.env.PORT || 8080);
 
+
+
+
 //PATH LOCATION STRATEGY
 
 app.get('/*', function(req, res){
     console.log(__dirname);
     console.log(__dirname + '/dist/index.html');
-    console.log(path.join(__dirname + '/dist/index.html'));
-    res.sendFile(path.join(__dirname + '/dist/index.html'));
+    console.log(path.join(__dirname + '/dist/root-of-civilization/index.html'));
+    res.sendFile(path.join(__dirname + '/dist/root-of-civilization/index.html'));
 })
 
 console.log(`CONSOLE LISTENING!`)
