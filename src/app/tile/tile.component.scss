@@ -1,9 +1,7 @@
 @import '../../styles.scss';
 
 
-/* --------------------------------- */
-/* VARIABLES */
-/* --------------------------------- */
+
 
 
 /* --------------------------------- */
@@ -31,8 +29,12 @@
     background-color: grey;
 }
 
-.icon{
+.icon-container{
     @include center-horizontal-vertical;
+
+}
+.icon{
+    font-size:1rem;
 }
 
 .band{
@@ -46,10 +48,6 @@
 /* --------------------------------- */
 /* BORDERS */
 /* --------------------------------- */
-// .north-river{border-top: .1rem solid $color-ocean-background;}
-// .east-river{border-right: .1rem solid $color-ocean-background;}
-// .south-river{border-bottom: .1rem solid $color-ocean-background;}
-// .west-river{border-left: .1rem solid $color-ocean-background;}
 
 .north-river{
     position:absolute;
@@ -82,5 +80,11 @@
     height:$tile-size;
     width:1px;
     background-color: $color-water;
+}
+/* --------------------------------- */
+/* SELECTED TILES */
+/* --------------------------------- */
 
+.selected{
+    background-color: rgb(228, 216, 216);
 }

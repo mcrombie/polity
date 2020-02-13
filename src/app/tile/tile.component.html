@@ -1,7 +1,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-<div class="tile {{_region._climateType}} {{_region._polity.polityType}} {{_region._borders}}" (click)='clicked()'>
+<div class="tile {{_region._climateType}} {{_region._polity.polityType}} {{_region._borders}} {{_region._polity._selected}}" 
+(click)='clicked()'>
     <p>{{_region.id}}</p>
     <div class="{{_region._borders[0]}}"></div>
     <div class="{{_region._borders[1]}}"></div>
@@ -10,7 +11,10 @@
     <!-- <p>{{_region._polity._name}} - {{_region._polity.getFlooredPopulation()}}</p>
     <p>FL - {{_region._polity._farmingLevel}}</p>
     <p>Food - {{_region._foodYield}}</p> -->
-    <i class="icon fa {{_region._polity._visual._icon}}" aria-hidden="true"></i>
+    <div class="icon-container">
+        <i class="icon fa {{_region._polity._visual._icon}}" aria-hidden="true"></i>
+    </div>
+    
     <!-- <i class="icon fa fa-tree" *ngFor="let tree of trees" aria-hidden="true"></i> -->
 </div>
 

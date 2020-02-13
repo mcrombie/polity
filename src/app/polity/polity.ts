@@ -24,12 +24,15 @@ export class Polity {
   private _growthRate: number;
   
   public _foodYielded:number;
+  public _farmingYield:number;
   public _foodStored: number;
   public _foodStorageCapacity:number;
   
   public _farmingLevel:number;
 
   public _visual:Visual;
+
+  public _selected:string;
 
   
 
@@ -41,11 +44,13 @@ export class Polity {
     this._population = 0;
     this.growthRate = 0;
     this._foodYielded = 0;
+    this._farmingYield = 0;
     this._foodStored = 0;
     this._foodStorageCapacity = 0;
     this._farmingLevel = 0;
     this._visual = new Visual('');
     this._partOfMainArray = false;
+    this._selected = 'not-selected';
   }
 
   /* --------------------------------- */
@@ -81,6 +86,12 @@ export class Polity {
     return Math.floor(this._population);
   }
 
+  removeDeadPolity(){
+    if(this._population <= 0){
+      
+    }
+  }
+
   /* --------------------------------- */
   /* 5. HANDLING REGIONS */
   /* --------------------------------- */
@@ -102,6 +113,7 @@ export class Polity {
     let regionOptions:Region [] = [];
     regions.filter((potentialRegion) => {
       for (let i=0; i < regionOptionIDs.length; i++){
+        // POTENTIAL REGION MUST BE A NEIGHBOR, UNSETTLED, AND NOT AN OCEAN
         if(potentialRegion._id == regionOptionIDs[i] && !potentialRegion._polity._settled && potentialRegion._climateType !== 'ocean'){
           regionOptions.push(potentialRegion);
         }
@@ -174,10 +186,10 @@ export class Polity {
     // FARMING FUNCTION HERE
     // FINISH REGION FIRST
     let r = (Math.random() * this._farmingLevel) / 100;
-    let farmingYield = Math.floor(r * this._region._foodYieldReplenish * this._population);
-    this.upgradeFarmingLevel(farmingYield);
-    this._region._farmingYield =  farmingYield;
-    console.log(`${this._name} farmed ${farmingYield} food.`)
+    this._farmingYield = Math.floor(r * this._region._foodYieldReplenish * this._population);
+    this.upgradeFarmingLevel(this._farmingYield);
+    this._region._farmingYield =  this._farmingYield;
+    console.log(`${this._name} farmed ${this._farmingYield} food.`)
   }
 
   upgradeFarmingLevel(farmingYield){

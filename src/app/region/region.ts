@@ -14,6 +14,8 @@ export class Region {
 
   public _borders:string[];
 
+  public _selected:string;
+
 
 
   public _climateType:string;
@@ -27,6 +29,7 @@ export class Region {
     this._climateType = _climate.type;
     this._farmingYield = 0;
     this._borders = ['none', 'none', 'none', 'none'];
+    this._selected = 'not-selected';
   }
 
   /* --------------------------------- */

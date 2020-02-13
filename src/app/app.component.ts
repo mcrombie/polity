@@ -12,7 +12,7 @@ import { testMap } from './savedMaps/testMap';
 })
 export class AppComponent {
   title = 'root-of-civilization';
-  savedMap = testMap;
+  savedMap = fertileCrescent;
   
 }
 

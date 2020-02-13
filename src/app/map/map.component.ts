@@ -40,7 +40,10 @@ export class MapComponent implements OnInit {
     // ADD POLITIES
     this.polities.push(new Band(this.regions[66], 'Origin', 10, true));
     this.regions[66]._polity = this.polities[0];
+
+
     this.selectedPolity = this.polities[0];
+    this.selectedPolity._selected = 'selected';
     
     //ADD RIVERS
     this.rivers.forEach((river) => {
@@ -52,8 +55,10 @@ export class MapComponent implements OnInit {
 
   }
 
-
   recievePolity($event) {
+    this.regions.forEach((region) => {
+      if(region._polity !== $event){region._polity._selected = 'not-selected';}
+    })
     this.selectedPolity = $event;
   }
 
@@ -71,16 +76,29 @@ export class MapComponent implements OnInit {
     this.year += number;
     for (let i = 0; i < number; i++) {
       // 2. POLITIES ACT
-      this.polities.forEach((polity) => { polity.act(this.regions); })
+      this.polities.forEach((polity) => { 
+        polity.act(this.regions); 
+      })
       // 3. REGIONS ACT
       this.regions.forEach((region) => { 
         // ADD NEW REGIONS TO MAIN ARRAY
-        if(!region._polity._partOfMainArray){
+        if(!region._polity._partOfMainArray && region._polity.polityType !== 'None'){
           this.polities.push(region._polity)
           region._polity._partOfMainArray = true;
         }
         region.replenishFood(); 
       })
+      // 4. REMOVE DEAD POLITIES
+      this.polities.forEach((polity,index) => {
+        console.log(polity._name);
+        //remove any polities without any people
+        if(polity._population <= 1 && polity !== undefined && polity.polityType !== 'None'){
+          console.log(`REMOVING ${polity._name}. ${polity.polityType}`)
+          polity._region._polity = new NoPolity();
+          this.polities.splice(index,1);
+        }
+       })
+
       // 4. RESET POLITY MOVEMENT BOOLEANS ?? DON'T THINK I NEED THIS NOW THAT THEY ARE SEPARATE FROM REGIONS
       //this.polities.forEach((polity) => { polity._hasMoved = false; })
     }
