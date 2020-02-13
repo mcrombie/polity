@@ -102,7 +102,7 @@ export class Polity {
     let regionOptions:Region [] = [];
     regions.filter((potentialRegion) => {
       for (let i=0; i < regionOptionIDs.length; i++){
-        if(potentialRegion._id == regionOptionIDs[i] && !potentialRegion._polity._settled){
+        if(potentialRegion._id == regionOptionIDs[i] && !potentialRegion._polity._settled && potentialRegion._climateType !== 'ocean'){
           regionOptions.push(potentialRegion);
         }
       }
