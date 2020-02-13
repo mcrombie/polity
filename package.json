@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
-    "build": "ng build",
+    "build": "ng build --outputPath='dist/'",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -16,7 +16,7 @@
     "@angular/cli": "~8.3.23",
     "@angular/common": "~8.2.14",
     "@angular/compiler": "~8.2.14",
-    "@angular-devkit/build-angular": "~0.803.23",
+    
     "@angular/compiler-cli": "~8.2.14",
     "@angular/core": "~8.2.14",
     "@angular/forms": "~8.2.14",
@@ -30,8 +30,9 @@
     "typescript": "~3.5.3"
   },
   "devDependencies": {
-    
-    
+    "@angular-devkit/build-angular": "~0.803.23",
+    "@angular/cli": "~8.3.23",
+    "@angular/compiler-cli": "~8.2.14",
     "@angular/language-service": "~8.2.14",
     "@types/node": "~8.9.4",
     "@types/jasmine": "~3.3.8",
