@@ -34,11 +34,20 @@
 
 }
 .icon{
-    font-size:1rem;
+    
+    margin:.1rem;
 }
 
 .band{
-    color:blue;
+    font-size:.5rem;
+    color:$color-band;
+}
+.village{
+    font-size:.9rem;
+    color:$color-village;
+}
+.town{
+    color:$color-town;
 }
 
 .forest{

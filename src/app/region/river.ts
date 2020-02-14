@@ -9,12 +9,12 @@ export class River{
         this._intersections.forEach((intersection) => {
             let tiles = intersection.borderingTiles();
             for(let i = 0; i < tiles.length; i++){
-                // if(tileYields[tiles[i]] === undefined){
-                //     tileYields[tiles[i]] = 1;
-                // }
-                // else{
-                //     tileYields[tiles[i]]++;
-                // }
+                if(tileYields[`${tiles[i][0]}-${tiles[i][1]}`] === undefined){
+                    tileYields[`${tiles[i][0]}-${tiles[i][1]}`] = 1;
+                }
+                else{
+                    tileYields[`${tiles[i][0]}-${tiles[i][1]}`]++;
+                }
             }
         })
         return tileYields;
@@ -83,7 +83,6 @@ export class River{
                 prevPoint = intersection._northWestTile;
             }
         })
-        console.log(riverLines);
         return riverLines;
     }
 }

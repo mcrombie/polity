@@ -3,7 +3,7 @@
 
 <div class="tile {{_region._climateType}} {{_region._polity.polityType}} {{_region._borders}} {{_region._polity._selected}}" 
 (click)='clicked()'>
-    <p>{{_region.id}}</p>
+    <!-- <p>{{_region.id}}</p> -->
     <div class="{{_region._borders[0]}}"></div>
     <div class="{{_region._borders[1]}}"></div>
     <div class="{{_region._borders[2]}}"></div>
@@ -12,7 +12,8 @@
     <p>FL - {{_region._polity._farmingLevel}}</p>
     <p>Food - {{_region._foodYield}}</p> -->
     <div class="icon-container">
-        <i class="icon fa {{_region._polity._visual._icon}}" aria-hidden="true"></i>
+        <i *ngFor="let icon of _region._polity._icons" class="icon fa {{_region._polity._visual._icon}}" aria-hidden="true"></i>
+
     </div>
     
     <!-- <i class="icon fa fa-tree" *ngFor="let tree of trees" aria-hidden="true"></i> -->

@@ -6,6 +6,7 @@ import { tropical, dry, temperate, continental, polar, ocean } from '../region/c
 import { NoPolity } from '../polity/noPolity';
 import { Band } from '../polity/band';
 import { River, euphrates, tigris, jordan } from '../region/river';
+import { Village } from '../polity/village';
 
 
 
@@ -43,7 +44,17 @@ export class MapComponent implements OnInit {
     //ADD RIVERS
     this.rivers.forEach((river) => {
       this.drawRivers(river.riverDrawing());
+      //MUST CONSOLIDATE YIELDS FROM DIFFERENT RIVERS
+      let riverYields = river.tileYields();
+      this.regions.forEach((region) => {
+        if(riverYields[`${region._col}-${region._row}`] !== undefined){
+          region._riverConnections += riverYields[`${region._col}-${region._row}`];
+          // console.log(region.id + " has " + region._riverConnections + " connections!");
+        }
+      })
+      // console.log(river.tileYields());
     })
+
   }
 
   recievePolity($event) {
@@ -81,10 +92,8 @@ export class MapComponent implements OnInit {
       })
       // 4. REMOVE DEAD POLITIES
       this.polities.forEach((polity,index) => {
-        console.log(polity._name);
         //remove any polities without any people
         if(polity._population <= 1 && polity !== undefined && polity.polityType !== 'None'){
-          console.log(`REMOVING ${polity._name}. ${polity.polityType}`)
           polity._region._polity = new NoPolity();
           this.polities.splice(index,1);
         }
@@ -122,7 +131,7 @@ export class MapComponent implements OnInit {
     this.regions.forEach((region) => {
       if(riverLines[`${region._col}-${region._row}`] !== undefined){
         for(let i=0; i < riverLines[`${region._col}-${region._row}`].length; i++){
-          console.log('hit' + ' ' + region.id + ' ' + riverLines[`${region._col}-${region._row}`][i]);
+          // console.log('hit' + ' ' + region.id + ' ' + riverLines[`${region._col}-${region._row}`][i]);
           region._borders[i] = riverLines[`${region._col}-${region._row}`][i];
          }
       }

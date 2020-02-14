@@ -11,6 +11,7 @@ export class Region {
   public _foodYield:number;
   public _foodYieldReplenish:number;
   public _farmingYield:number;
+  public _riverConnections:number;
 
   public _borders:string[];
 
@@ -31,6 +32,7 @@ export class Region {
     this._foodYieldReplenish = _climate.naturalFoodYieldReplenish;
     this._climateType = _climate.type;
     this._farmingYield = 0;
+    this._riverConnections = 0;
     this._borders = ['none', 'none', 'none', 'none'];
     this._selected = 'not-selected';
   }

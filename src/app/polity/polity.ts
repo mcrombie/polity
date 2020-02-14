@@ -34,6 +34,8 @@ export class Polity {
 
   public _selected:string;
 
+  public _icons:number[];
+
   
 
   constructor() {
@@ -51,6 +53,7 @@ export class Polity {
     this._visual = new Visual('');
     this._partOfMainArray = false;
     this._selected = 'not-selected';
+    this._icons = [];
   }
 
   /* --------------------------------- */
@@ -116,7 +119,6 @@ export class Polity {
         if(potentialRegion._id[0] == regionOptionIDs[i][0] &&  potentialRegion._id[1] == regionOptionIDs[i][1]
           && !potentialRegion._polity._settled 
           && potentialRegion._climateType !== 'ocean'){
-          console.log(potentialRegion + 'warguglarg');
           regionOptions.push(potentialRegion);
         }
       }
@@ -139,7 +141,6 @@ export class Polity {
         chosenRegion = shuffledRegions[i];
       } 
     }
-    console.log(chosenRegion.id);
     return chosenRegion;
   }
 
@@ -181,17 +182,14 @@ export class Polity {
       this._foodYielded = this._region._foodYield;
       this._region._foodYield -= this._foodYielded;
     }
-    console.log(`Food stored is ${this._foodStored}`);
   }
 
   farm(){
     // FARMING FUNCTION HERE
-    // FINISH REGION FIRST
-    let r = (Math.random() * this._farmingLevel) / 100;
+    let r = (Math.random() * (this._farmingLevel + this._region._riverConnections)) / 100;
     this._farmingYield = Math.floor(r * this._region._foodYieldReplenish * this._population);
     this.upgradeFarmingLevel(this._farmingYield);
     this._region._farmingYield =  this._farmingYield;
-    console.log(`${this._name} farmed ${this._farmingYield} food.`)
   }
 
   upgradeFarmingLevel(farmingYield){

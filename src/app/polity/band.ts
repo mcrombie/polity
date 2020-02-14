@@ -3,6 +3,9 @@ import { Region } from '../region/region';
 import { Visual,  bandVisual } from '../misc/Visual';
 import {chicagoDogNames} from '../misc/nameGenerator';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Village } from './village';
+import { continental, ocean } from '../region/climate';
+import { NoPolity } from './noPolity';
 
 /* --------------------------------- */
 /* BAND POLITY */
@@ -28,6 +31,8 @@ export class Band extends Polity {
 
         this._visual = bandVisual;
         this._partOfMainArray = _partOfMainArray;
+
+        this._icons = Array(1).fill(0).map((x,i)=>i); 
     }
 
     /* --------------------------------- */
@@ -41,14 +46,13 @@ export class Band extends Polity {
     }
 
     /* --------------------------------- */
-    /* 6. FOOD METHODS */
+    /*  FOOD METHODS */
     /* --------------------------------- */
     eat(regions) {
         let hungryPeople = this._population - this._foodYielded;
 
         // 1. INCASE THERE IS NOT ENOUGH FOOD, USE STORAGE
         if(hungryPeople > 0){
-            console.log(`DIVING INTO STORED FOOD!`)
             if(this._foodStored >= hungryPeople){
                 this._foodStored -= hungryPeople;
                 hungryPeople = 0;
@@ -65,17 +69,14 @@ export class Band extends Polity {
             let newRegionOptions = this.searchForFreeNeighboringRegions(regions, this._region);
             if (newRegionOptions.length > 0) {
                 // new band will be between the excess population and half the total population
-                console.log(`A new band just split`);
                 let minToMigrate = hungryPeople;
                 let newBandSize = Math.floor((Math.random() * (Math.floor(this._population / 2))) + minToMigrate);
                 let newRegion = this.findHighestYieldingRegion(newRegionOptions);
-                console.log(`Band splitting to ${newRegion}!`)
                 this.bandSplit(regions, newRegion, newBandSize);
                 this._population -= newBandSize;
             }
             // 1B. PEOPLE STARVE
             else {
-                console.log(`In ${this._name}, ${hungryPeople} people died of starvation or went looking for new food`);
                 this._population -= hungryPeople;
             }
             
@@ -88,13 +89,11 @@ export class Band extends Polity {
         this._foodYielded = 0;
     }
     /* --------------------------------- */
-    /* 3. BAND MOVEMENT CHOICES 
+    /* BAND MOVEMENT CHOICES 
     -- How this type of polity makes decisions --*/
     /* --------------------------------- */
 
     firstMove(regions) {
-        // console.log(`${this._name} made a move!`)
-
         // 1. SCOUT NEIGHBORING REGIONS TO SEE WHICH HAS THE HIGHEST FOOD YIELD
         let newRegionOptions = this.searchForFreeNeighboringRegions(regions, this._region);
         // 2A. NO AVAILABLE TILES TO MIGRATE TO, FARM WEHRE YOU ARE
@@ -117,12 +116,39 @@ export class Band extends Polity {
         this.forage();
     }
 
+    /* --------------------------------- */
+    /* UPDATING
+    /* --------------------------------- */
+    update(){
+        //UPDATE ICONS TO REFLECT POPULATION SIZE
+        if(this._population >= 2 && this._population < 50){this._icons = Array(1).fill(0).map((x,i)=>i); }
+        else if(this._population >= 50 && this._population < 100){this._icons = Array(2).fill(0).map((x,i)=>i); }
+        else if(this._population >= 100  && this._population < 150){this._icons = Array(3).fill(0).map((x,i)=>i); }
+        else if(this._population >= 150  && this._population < 200){this._icons = Array(4).fill(0).map((x,i)=>i); }
+        else if(this._population >= 200  && this._population < 250){this._icons = Array(5).fill(0).map((x,i)=>i); }
+        else if(this._population >= 250  && this._population < 300){this._icons = Array(6).fill(0).map((x,i)=>i); }
+        else if(this._population >= 300  && this._population < 350){this._icons = Array(7).fill(0).map((x,i)=>i); }
+        else if(this._population >= 350  && this._population < 400){this._icons = Array(8).fill(0).map((x,i)=>i); }
+        else if(this._population >= 400  && this._population < 450){this._icons = Array(9).fill(0).map((x,i)=>i); }
+        else if(this._population >= 450  && this._population < 500){this._icons = Array(10).fill(0).map((x,i)=>i); }
+        else if(this._population >= 500  && this._population < 550){this._icons = Array(11).fill(0).map((x,i)=>i); }
+        else if(this._population >= 550){this._icons = Array(12).fill(0).map((x,i)=>i); }
+
+        //SET TRANSITION FROM BAND TO VILLAGE
+        if(this._population >= 500 && this._farmingLevel >= 10 && this._region._riverConnections > 0){
+            console.log('Advent of a village.')
+            let village = new Village(this,false);
+            this._region._polity = village;
+            this._region = new Region(0,0, ocean, new NoPolity());
+        }
+    }
+
     act(regions) {
         this.firstMove(regions);
         this.secondMove(regions);
         this.eat(regions);
         this.populationGrowth();
+        this.update();
         this._hasMoved = true;
-        console.log(`${this._name} has ${this._foodStored} in storage.`)
     }
 }
