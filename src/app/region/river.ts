@@ -9,12 +9,12 @@ export class River{
         this._intersections.forEach((intersection) => {
             let tiles = intersection.borderingTiles();
             for(let i = 0; i < tiles.length; i++){
-                if(tileYields[tiles[i]] === undefined){
-                    tileYields[tiles[i]] = 1;
-                }
-                else{
-                    tileYields[tiles[i]]++;
-                }
+                // if(tileYields[tiles[i]] === undefined){
+                //     tileYields[tiles[i]] = 1;
+                // }
+                // else{
+                //     tileYields[tiles[i]]++;
+                // }
             }
         })
         return tileYields;
@@ -26,57 +26,57 @@ export class River{
     riverDrawing(){
         // let riverLines = [];
         let riverLines = {};
-        let prevPoint:string;
+        let prevPoint:number[];
         this._intersections.forEach((intersection) => {
             if(prevPoint === undefined){prevPoint = intersection._northWestTile}
             else{
                 // 1. RIVER GOES WEST
-                if(intersection._northWestTile[0].charCodeAt(0) == prevPoint.charCodeAt(0) - 1){
-                    if(riverLines[intersection._northWestTile] === undefined){
-                        riverLines[intersection._northWestTile] = ['south-river'];
+                if(intersection._northWestTile[0] == prevPoint[0] - 1){
+                    if(riverLines[`${intersection._northWestTile[0]}-${intersection._northWestTile[1]}`] === undefined){
+                        riverLines[`${intersection._northWestTile[0]}-${intersection._northWestTile[1]}`] = ['south-river'];
                     }
                     else{
-                        riverLines[intersection._northWestTile].push('south-river');
+                        riverLines[`${intersection._northWestTile[0]}-${intersection._northWestTile[1]}`].push('south-river');
                     }
 
-                    if(riverLines[intersection._northWestTile[0] + (parseInt(intersection._northWestTile[1]) + 1)] === undefined){
-                        riverLines[intersection._northWestTile[0] + (parseInt(intersection._northWestTile[1]) + 1)] = ['north-river'];
+                    if(riverLines[`${intersection._northWestTile[0]}-${intersection._northWestTile[1] + 1}`] === undefined){
+                        riverLines[`${intersection._northWestTile[0]}-${intersection._northWestTile[1] + 1}`]  = ['north-river'];
                     }
                     else{
-                        riverLines[intersection._northWestTile[0] + (parseInt(intersection._northWestTile[1]) + 1)].push('north-river')
+                        riverLines[`${intersection._northWestTile[0]}-${intersection._northWestTile[1] + 1}`].push('north-river')
                     }
                     
                     
                 }
                 // 2. RIVER GOES SOUTH
-                else if(intersection._northWestTile[0].charCodeAt(0) == prevPoint.charCodeAt(0)){
-                    if(riverLines[intersection._northWestTile[0] + (parseInt(intersection._northWestTile[1]))] === undefined){
-                        riverLines[intersection._northWestTile[0] + (parseInt(intersection._northWestTile[1]))] = ['east-river'];
+                else if(intersection._northWestTile[0] == prevPoint[0]){
+                    if(riverLines[`${intersection._northWestTile[0]}-${intersection._northWestTile[1]}`] === undefined){
+                        riverLines[`${intersection._northWestTile[0]}-${intersection._northWestTile[1]}`] = ['east-river'];
                     }
                     else{
-                        riverLines[intersection._northWestTile[0] + (parseInt(intersection._northWestTile[1]))].push('east-river');                    
+                        riverLines[`${intersection._northWestTile[0]}-${intersection._northWestTile[1]}`].push('east-river');                    
                     }
-                    if(riverLines[String.fromCharCode(intersection._northWestTile[0].charCodeAt(0) + 1) + (parseInt(intersection._northWestTile[1]))] === undefined){
-                        riverLines[String.fromCharCode(intersection._northWestTile[0].charCodeAt(0) + 1) + (parseInt(intersection._northWestTile[1]))] = ['west-river'];
+                    if(riverLines[`${intersection._northWestTile[0] + 1}-${intersection._northWestTile[1]}`] === undefined){
+                        riverLines[`${intersection._northWestTile[0] + 1}-${intersection._northWestTile[1]}`] = ['west-river'];
                     }
                     else{
-                        riverLines[String.fromCharCode(intersection._northWestTile[0].charCodeAt(0) + 1) + (parseInt(intersection._northWestTile[1]))].push('west-river');
+                        riverLines[`${intersection._northWestTile[0] + 1}-${intersection._northWestTile[1]}`].push('west-river');
                     }
 
                 }
                 // 3. RIVER GOES EAST
-                else if(intersection._northWestTile[0].charCodeAt(0) == prevPoint.charCodeAt(0) + 1){
-                    if(riverLines[String.fromCharCode(intersection._northWestTile[0].charCodeAt(0)) + (parseInt(intersection._northWestTile[1]))] === undefined){
-                        riverLines[String.fromCharCode(intersection._northWestTile[0].charCodeAt(0)) + (parseInt(intersection._northWestTile[1]))] = ['south-river'];
+                else if(intersection._northWestTile[0] == prevPoint[0] + 1){
+                    if(riverLines[`${intersection._northWestTile[0]}-${intersection._northWestTile[1]}`] === undefined){
+                        riverLines[`${intersection._northWestTile[0]}-${intersection._northWestTile[1]}`] = ['south-river'];
                     }
                     else{
-                        riverLines[String.fromCharCode(intersection._northWestTile[0].charCodeAt(0)) + (parseInt(intersection._northWestTile[1]))].push('south-river');
+                        riverLines[`${intersection._northWestTile[0]}-${intersection._northWestTile[1]}`].push('south-river');
                     }
-                    if(riverLines[String.fromCharCode(intersection._northWestTile[0].charCodeAt(0)) + (parseInt(intersection._northWestTile[1]) + 1)] === undefined){
-                        riverLines[String.fromCharCode(intersection._northWestTile[0].charCodeAt(0)) + (parseInt(intersection._northWestTile[1]) + 1)] = ['north-river'];
+                    if(riverLines[`${intersection._northWestTile[0]}-${intersection._northWestTile[1] + 1}`] === undefined){
+                        riverLines[`${intersection._northWestTile[0]}-${intersection._northWestTile[1] + 1}`] = ['north-river'];
                     }
                     else{
-                        riverLines[String.fromCharCode(intersection._northWestTile[0].charCodeAt(0)) + (parseInt(intersection._northWestTile[1]) + 1)].push('north-river');
+                        riverLines[`${intersection._northWestTile[0]}-${intersection._northWestTile[1] + 1}`].push('north-river');
                     }
                 }
                 // String.fromCharCode(region._id[0].charCodeAt(0) - 1)
@@ -90,46 +90,46 @@ export class River{
 
 
 const euphratesRiverIntersections:Intersection[] = [
-    new Intersection("D1","E1", "D2", "E2"),
-    new Intersection("D2","E2", "D3", "E3"),
-    new Intersection("D3","E3", "D4", "E4"),
-    new Intersection("E3","F3", "E4", "F4"),
-    new Intersection("E4","F4", "E5", "F5"),
-    new Intersection("F4","G4", "F5", "G5"),
-    new Intersection("F5","G5", "F6", "H6"),
-    new Intersection("G5","H5", "G6", "H6"),
-    new Intersection("G6","H6", "G7", "H7"),
-    new Intersection("H6","I6", "H7", "I7"),
-    new Intersection("H7","I7", "H8", "I8"),
-    new Intersection("H8","I8", "H9", "I9"),
-    new Intersection("I8","J8", "I9", "J9"),
-    new Intersection("I9","J9", "I10", "J10"),
-    new Intersection("J9","K9", "J10", "K10")
+    new Intersection([4,1],[5,1], [4,2], [5,2]),
+    new Intersection([4,2],[5,2], [4,3], [5,3]),
+    new Intersection([4,3],[5,3], [4,4], [5,4]),
+    new Intersection([5,3],[6,3], [5,4], [6,4]),
+    new Intersection([5,4],[6,4], [5,5], [6,5]),
+    new Intersection([6,4],[7,4], [6,5], [7,5]),
+    new Intersection([6,5],[7,5], [6,6], [7,6]),
+    new Intersection([7,5],[8,5], [7,6], [8,6]),
+    new Intersection([7,6],[8,6], [7,7], [8,7]),
+    new Intersection([8,6],[9,6], [8,7], [9,7]),
+    new Intersection([8,7],[9,7], [8,8], [9,8]),
+    new Intersection([8,8],[9,8], [8,9], [9,9]),
+    new Intersection([9,8],[10,8], [9,9], [10,9]),
+    new Intersection([9,9],[10,9], [9,10], [10,10]),
+    new Intersection([10,9],[11,9], [10,10], [11,10])
 
 ]
 
 const tigrisRiverIntersections:Intersection[] = [
-    new Intersection("E1","F1", "E2", "F2"),
-    new Intersection("F1","G1", "F2", "G2"),
-    new Intersection("F2","G2", "F3", "G3"),
-    new Intersection("G2","H2", "G3", "H3"),
-    new Intersection("G3","H3", "G4", "H4"),
-    new Intersection("H3","I3", "H4", "I4"),
-    new Intersection("H4","I4", "H5", "I5"),
-    new Intersection("I4","J4", "I5", "J5"),
-    new Intersection("I5","J5", "I6", "J6"),
-    new Intersection("I6","J6", "I7", "J7"),
-    new Intersection("I7","J7", "I8", "J8"),
-    new Intersection("J7","K7", "J8", "K8"),
-    new Intersection("J8","K8", "J9", "K9"),
-    new Intersection("K8","L8", "K9", "L9"),
-    new Intersection("K9","L9", "K10", "L10"),
+    new Intersection([5,1],[6,1], [5,2], [6,2]),
+    new Intersection([6,1],[7,1], [6,2], [7,2]),
+    new Intersection([6,2],[7,2], [6,3], [7,3]),
+    new Intersection([7,2],[8,2], [7,3], [8,3]),
+    new Intersection([7,3],[8,3], [7,4], [8,4]),
+    new Intersection([8,3],[9,3], [8,4], [9,4]),
+    new Intersection([8,4],[9,4], [8,5], [9,5]),
+    new Intersection([9,4],[10,4], [9,5], [10,5]),
+    new Intersection([9,5],[10,5], [9,6], [10,6]),
+    new Intersection([9,6],[10,6], [9,7], [10,7]),
+    new Intersection([9,7],[10,7], [9,8], [10,8]),
+    new Intersection([10,7],[11,7], [10,8], [11,8]),
+    new Intersection([10,8],[11,8], [10,9], [11,9]),
+    new Intersection([11,8],[12,8], [11,9], [12,9]),
+    new Intersection([11,9],[12,9], [11,10], [12,10]),
 ]
 
 const jordanRiverIntersections:Intersection[] = [
-    new Intersection("B6","C6", "B7", "C7"),
-    new Intersection("B7","C7", "B8", "C8"),
-    new Intersection("B8","C8", "B9", "C9")
+    new Intersection([2,6],[3,6], [2,7], [3,7]),
+    new Intersection([2,7],[3,7], [2,8], [3,8]),
+    new Intersection([2,8],[3,8], [2,9], [3,9])
 ]
 
 export const euphrates = new River(euphratesRiverIntersections);

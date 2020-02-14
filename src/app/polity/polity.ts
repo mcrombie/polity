@@ -98,15 +98,14 @@ export class Polity {
   searchForFreeNeighboringRegions(regions, region){
     // 1. ARRAY OF 8 NEIGHBORING REGIONS
     let regionOptionIDs = [
-      (String.fromCharCode(region._id[0].charCodeAt(0) - 1)) + (region._id[1] - 1), //northwest
-      (String.fromCharCode(region._id[0].charCodeAt(0) - 1)) + region._id[1], //west
-      (String.fromCharCode(region._id[0].charCodeAt(0) - 1)) + (parseInt(region._id[1]) + 1), //southwest
-      region._id[0] + (parseInt(region._id[1]) - 1), //north
-      region._id[0] + (parseInt(region._id[1]) + 1), //south
-      (String.fromCharCode(region._id[0].charCodeAt(0) + 1)) + (region._id[1] - 1), //northeast
-      (String.fromCharCode(region._id[0].charCodeAt(0) + 1)) + region._id[1], //east
-      (String.fromCharCode(region._id[0].charCodeAt(0) + 1)) + (parseInt(region._id[1]) + 1) //southeast
-
+      [region._col - 1, region._row - 1], //northwest
+      [region._col - 1, region._row], //west
+      [region._col - 1, region._row + 1], //southwest
+      [region._col, region._row - 1], //north
+      [region._col, region._row + 1], //south
+      [region._col + 1, region._row - 1], //northeast
+      [region._col + 1, region._row], //east
+      [region._col + 1, region._row + 1], //southeast
     ];
 
     // 2. ARRAY OF NEIGHBORING REGIONS UNSETTLED
@@ -114,7 +113,10 @@ export class Polity {
     regions.filter((potentialRegion) => {
       for (let i=0; i < regionOptionIDs.length; i++){
         // POTENTIAL REGION MUST BE A NEIGHBOR, UNSETTLED, AND NOT AN OCEAN
-        if(potentialRegion._id == regionOptionIDs[i] && !potentialRegion._polity._settled && potentialRegion._climateType !== 'ocean'){
+        if(potentialRegion._id[0] == regionOptionIDs[i][0] &&  potentialRegion._id[1] == regionOptionIDs[i][1]
+          && !potentialRegion._polity._settled 
+          && potentialRegion._climateType !== 'ocean'){
+          console.log(potentialRegion + 'warguglarg');
           regionOptions.push(potentialRegion);
         }
       }

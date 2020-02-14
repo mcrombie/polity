@@ -15,11 +15,7 @@ import { River, euphrates, tigris, jordan } from '../region/river';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit {
-  //public numberOfTiles:number[] = Array(9).fill(0).map((x,i)=>i);
-  // EMPTY TILES INITIATED WITH AN ABSTRACT POLITY
-  // FIRST POLITY IN THE GAME
 
-  //public startingPolity = new Band(10, 10, 'SammyKa');
   public year = 0;
   @Input() regions: Region[];
   @Input() rivers:River[];
@@ -32,14 +28,13 @@ export class MapComponent implements OnInit {
 
 
   constructor() {
-    //DEVELOP MAP GENERATION LATER
   }
 
 
   ngOnInit() {
     // ADD POLITIES
-    this.polities.push(new Band(this.regions[66], 'Origin', 10, true));
-    this.regions[66]._polity = this.polities[0];
+    this.polities.push(new Band(this.regions[0], 'Origin', 10, true));
+    this.regions[0]._polity = this.polities[0];
 
 
     this.selectedPolity = this.polities[0];
@@ -49,10 +44,6 @@ export class MapComponent implements OnInit {
     this.rivers.forEach((river) => {
       this.drawRivers(river.riverDrawing());
     })
-    // this.drawRivers(euphrates.riverDrawing());
-    // this.drawRivers(tigris.riverDrawing());
-    // this.drawRivers(jordan.riverDrawing());
-
   }
 
   recievePolity($event) {
@@ -64,7 +55,7 @@ export class MapComponent implements OnInit {
 
   getRegionById(id){
     //creating a fake deault region return probably BAD idea...
-    let returnedRegion:Region = new Region("none", continental, new NoPolity());
+    let returnedRegion:Region = new Region(0,0, continental, new NoPolity());
     this.regions.forEach((region) => { 
       if(region.id === id){returnedRegion = region;}
     })
@@ -127,11 +118,12 @@ export class MapComponent implements OnInit {
   }
 
   drawRivers(riverLines){
+    //ADJUST FOR NEW ID SYSTEM
     this.regions.forEach((region) => {
-      if(riverLines[region.id] !== undefined){
-        for(let i=0; i < riverLines[region.id].length; i++){
-          console.log('hit' + ' ' + region.id + ' ' + riverLines[region.id][i]);
-          region._borders[i] = riverLines[region.id][i];
+      if(riverLines[`${region._col}-${region._row}`] !== undefined){
+        for(let i=0; i < riverLines[`${region._col}-${region._row}`].length; i++){
+          console.log('hit' + ' ' + region.id + ' ' + riverLines[`${region._col}-${region._row}`][i]);
+          region._borders[i] = riverLines[`${region._col}-${region._row}`][i];
          }
       }
     })

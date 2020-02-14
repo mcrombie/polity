@@ -15,12 +15,15 @@ export class Region {
   public _borders:string[];
 
   public _selected:string;
+  private _id:number[];
 
 
 
   public _climateType:string;
-  constructor(private _id: string, public _climate:Climate, public _polity:Polity) {
-    this._id = _id;
+  constructor(public _col: number, public _row: number, public _climate:Climate, public _polity:Polity) {
+    this._col = _col;
+    this._row = _row;
+    this._id = [this._col, this._row];
     this._polity = _polity;
     this._settled = this._polity._settled; //DOES THIS MAKE SENSE TO DO?
     this._maxFoodYield = _climate.naturalMaxFoodYield;
