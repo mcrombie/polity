@@ -8,15 +8,12 @@ import { Band } from '../polity/band';
 import { River, euphrates, tigris, jordan } from '../region/river';
 import { Village } from '../polity/village';
 
-
-
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss']
+  selector: 'app-mini-map',
+  templateUrl: './mini-map.component.html',
+  styleUrls: ['./mini-map.component.scss']
 })
-export class MapComponent implements OnInit {
-
+export class MiniMapComponent implements OnInit {
   public year = 0;
   @Input() regions: Region[];
   @Input() rivers:River[];
@@ -75,8 +72,6 @@ export class MapComponent implements OnInit {
     return returnedRegion;
   }
 
-
-
   forwardYears(number) {
     // 1. UPDATE YEAR
     this.year += number;
@@ -108,18 +103,16 @@ export class MapComponent implements OnInit {
     }
   }
 
-
   play(number){
     // this.forwardYears(1);
-    let intNumber = parseInt(number);
-    this.pause();
     this.interval = setInterval(()=> {
-      this.forwardYears(intNumber); },1000); 
+      this.forwardYears(number); },1000); 
   }
 
   pause(){
     clearInterval(this.interval);
   }
+
 
   globalPopulation(){
     let globalPopulation = 0;

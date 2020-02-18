@@ -34,19 +34,20 @@
 
 }
 .icon{
-    
-    margin:.1rem;
+    padding:0rem;
+    margin:0rem .05rem 0rem 0rem;
 }
 
 .band{
-    font-size:.5rem;
+    font-size:.25rem;
     color:$color-band;
 }
 .village{
-    font-size:.9rem;
+    font-size:.25rem;
     color:$color-village;
 }
-.town{
+.town{  
+    font-size:.25rem;
     color:$color-town;
 }
 

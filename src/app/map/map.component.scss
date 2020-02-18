@@ -1,12 +1,10 @@
 @import '../../styles.scss';
 .map-container{
-    @include center-horizontal-vertical;
     display:flex;
     flex-direction: row;
     background-color:$color-background;
     color:white;
     width:100rem;
-
 }
 
 .data-display{

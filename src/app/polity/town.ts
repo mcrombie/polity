@@ -1,39 +1,37 @@
 import { Polity } from './polity';
 import { Region } from '../region/region';
-import { Visual, bandVisual, villageVisual } from '../misc/Visual';
-import { fertileCrescentNames } from '../misc/nameGenerator';
+import { Visual,  bandVisual, townVisual } from '../misc/Visual';
+import {fertileCrescentNames} from '../misc/nameGenerator';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Band } from './band';
-import { Town } from './town';
-import { ocean } from '../region/climate';
-import { NoPolity } from './noPolity';
+import { Village } from './village';
 
 /* --------------------------------- */
-/* Village POLITY */
+/* Town POLITY */
 /* --------------------------------- */
 
-export class Village extends Polity {
+export class Town extends Polity {
     /* --------------------------------- */
     /* 1. CONSTRUCTOR AND PROPERTIES 
     -- The most basic form of polity --*/
     /* --------------------------------- */
-    constructor(public _band: Band, public _partOfMainArray: boolean) {
+    constructor(public _village: Village, public _partOfMainArray:boolean) {
         super();
-        this._region = _band._region;
-        this._name = this._band._name;
-        this.polityType = 'Village';
-        this._hasMoved = _band._hasMoved;
+        this._region = _village._region;
+        this._name = this._village._name;
+        this.polityType = 'Town';
+        this._hasMoved = _village._hasMoved;
         this._settled = true;
-        this._population = _band._population;
+        this._population = _village._population;
         this.growthRate = 0.02; //RAISED FOR SEDENTISM
-        this._foodYielded = _band._foodYielded;
-        this._foodStored = _band._foodStored;
+        this._foodYielded = _village._foodYielded;
+        this._foodStored = _village._foodStored;
         this._farmingLevel = 11; // MAYBE
 
-        this._visual = villageVisual;
+        this._visual = townVisual;
         this._partOfMainArray = _partOfMainArray;
 
-        this._icons = Array(1).fill(0).map((x, i) => i);
+        this._icons = Array(1).fill(0).map((x,i)=>i); 
     }
 
     /* --------------------------------- */
@@ -51,18 +49,18 @@ export class Village extends Polity {
     
     IS THIS THE SAME FOR BAND? DO SOMETHING ABOUT THIS!
     */
-
+    
     /* --------------------------------- */
     eat(regions) {
         let hungryPeople = this._population - this._foodYielded;
 
         // 1. INCASE THERE IS NOT ENOUGH FOOD, USE STORAGE
-        if (hungryPeople > 0) {
-            if (this._foodStored >= hungryPeople) {
+        if(hungryPeople > 0){
+            if(this._foodStored >= hungryPeople){
                 this._foodStored -= hungryPeople;
                 hungryPeople = 0;
             }
-            else {
+            else{
                 hungryPeople -= this._foodStored;
                 this._foodStored = 0;
             }
@@ -84,7 +82,7 @@ export class Village extends Polity {
             else {
                 this._population -= hungryPeople;
             }
-
+            
 
 
         }
@@ -107,34 +105,22 @@ export class Village extends Polity {
     /* --------------------------------- */
     /* UPDATING
     /* --------------------------------- */
-    update(regions) {
+    update(){
         //UPDATE ICONS TO REFLECT POPULATION SIZE
-        if (this._population >= 2 && this._population < 500) { this._icons = Array(1).fill(0).map((x, i) => i); }
-        else if (this._population >= 500 && this._population < 1000) { this._icons = Array(2).fill(0).map((x, i) => i); }
-        else if (this._population >= 1000 && this._population < 1500) { this._icons = Array(3).fill(0).map((x, i) => i); }
-        else if (this._population >= 1500 && this._population < 2000) { this._icons = Array(4).fill(0).map((x, i) => i); }
-        else if (this._population >= 2000 && this._population < 2500) { this._icons = Array(5).fill(0).map((x, i) => i); }
-        else if (this._population >= 2500 && this._population < 3000) { this._icons = Array(6).fill(0).map((x, i) => i); }
-        else if (this._population >= 3000 && this._population < 3500) { this._icons = Array(7).fill(0).map((x, i) => i); }
-        else if (this._population >= 3500 && this._population < 350) { this._icons = Array(8).fill(0).map((x, i) => i); }
-        else if (this._population >= 4000 && this._population < 400) { this._icons = Array(9).fill(0).map((x, i) => i); }
-        else if (this._population >= 4500 && this._population < 450) { this._icons = Array(10).fill(0).map((x, i) => i); }
-        else if (this._population >= 5000 && this._population < 500) { this._icons = Array(11).fill(0).map((x, i) => i); }
-        else if (this._population >= 5500) { this._icons = Array(12).fill(0).map((x, i) => i); }
+        if(this._population >= 2 && this._population < 5000){this._icons = Array(1).fill(0).map((x,i)=>i); }
+        else if(this._population >= 5000 && this._population < 10000){this._icons = Array(2).fill(0).map((x,i)=>i); }
+        else if(this._population >= 10000 && this._population < 15000){this._icons = Array(3).fill(0).map((x,i)=>i); }
+        else if(this._population >= 15000  && this._population < 20000){this._icons = Array(4).fill(0).map((x,i)=>i); }
+        else if(this._population >= 20000  && this._population < 25000){this._icons = Array(5).fill(0).map((x,i)=>i); }
+        else if(this._population >= 25000  && this._population < 30000){this._icons = Array(6).fill(0).map((x,i)=>i); }
+        else if(this._population >= 30000  && this._population < 35000){this._icons = Array(7).fill(0).map((x,i)=>i); }
+        else if(this._population >= 35000  && this._population < 3500){this._icons = Array(8).fill(0).map((x,i)=>i); }
+        else if(this._population >= 40000  && this._population < 4000){this._icons = Array(9).fill(0).map((x,i)=>i); }
+        else if(this._population >= 45000  && this._population < 4500){this._icons = Array(10).fill(0).map((x,i)=>i); }
+        else if(this._population >= 50000  && this._population < 5000){this._icons = Array(11).fill(0).map((x,i)=>i); }
+        else if(this._population >= 55000){this._icons = Array(12).fill(0).map((x,i)=>i); }
 
-        //SET TRANSITION FROM VILLAGE TO TOWN
-        let neighboringVillages:number = 0;
-        // Must have at least two villages as neighbors
-        this.getNeighboringRegions(regions,this._region).forEach((neighborRegion) => {
-            if(neighborRegion._polity.polityType == 'Village') neighboringVillages++;
-        })
-        if (this._population >= 5000 && this._farmingLevel >= 20 && this._region._riverConnections > 0
-            && neighboringVillages >= 2) {
-            console.log('Advent of a town.')
-            let town = new Town(this, false);
-            this._region._polity = town;
-            this._region = new Region(0, 0, ocean, new NoPolity());
-        }
+        //SET TRANSITION FROM TOWN TO CITY
     }
 
     act(regions) {
@@ -142,7 +128,7 @@ export class Village extends Polity {
         this.secondMove(regions);
         this.eat(regions);
         this.populationGrowth();
-        this.update(regions);
+        this.update();
         this._hasMoved = true;
     }
 }

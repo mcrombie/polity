@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="map-container">
+
+    <div class="tile-container">
+        <app-tile (selectedPolity)="recievePolity($event)" *ngFor="let region of regions" [_region]="region"></app-tile>
+    </div>
+
+    <div class="control-panel">
+        <h2 class="control-panel__title">Control Panel</h2>
+        <div class="control-panel__button-container">
+            <button id="forwardOneYear" class="control-panel__btn" (click)="forwardYears(1)">Forward One Year</button>
+            <button id="forwardTenYear" class="control-panel__btn" (click)="forwardYears(10)">Forward Ten Years</button>
+            <button id="forwardHundredYear" class="control-panel__btn" (click)="forwardYears(100)">Forward One Hundred Years</button>
+            <button id="forwardThousandYear" class="control-panel__btn" (click)="forwardYears(1000)">Forward One Thousand Years</button>
+            <button class="control-panel__btn" (click)="play(1)"><i class="icon fa fa-play" aria-hidden="true"></i></button>
+            <button class="control-panel__btn" (click)="pause()"><i class="icon fa fa-pause" aria-hidden="true"></i></button>
+        </div>
+
+    </div>
+
+    <!-- <i class="fa fa-male" aria-hidden="true"></i>
+    <i class="fa fa-home" aria-hidden="true"></i>
+    <i class="fa fa-tree" aria-hidden="true"></i> -->
+
+</div>

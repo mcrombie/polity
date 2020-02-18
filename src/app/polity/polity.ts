@@ -98,6 +98,31 @@ export class Polity {
   /* --------------------------------- */
   /* 5. HANDLING REGIONS */
   /* --------------------------------- */
+  getNeighboringRegions(regions, region){
+    // 1. ARRAY OF 8 NEIGHBORING REGIONS
+    let regionOptionIDs = [
+      [region._col - 1, region._row - 1], //northwest
+      [region._col - 1, region._row], //west
+      [region._col - 1, region._row + 1], //southwest
+      [region._col, region._row - 1], //north
+      [region._col, region._row + 1], //south
+      [region._col + 1, region._row - 1], //northeast
+      [region._col + 1, region._row], //east
+      [region._col + 1, region._row + 1], //southeast
+    ];
+
+    // 2. ARRAY OF NEIGHBORING REGIONS 
+    let neighboringRegions:Region [] = [];
+    regions.filter((neighborRegion) => {
+      for (let i=0; i < regionOptionIDs.length; i++){
+        // POTENTIAL REGION MUST BE A NEIGHBOR
+        if(neighborRegion._id[0] == regionOptionIDs[i][0] &&  neighborRegion._id[1] == regionOptionIDs[i][1]){
+          neighboringRegions.push(neighborRegion);
+        }
+      }
+    })
+    return neighboringRegions;
+  }
   searchForFreeNeighboringRegions(regions, region){
     // 1. ARRAY OF 8 NEIGHBORING REGIONS
     let regionOptionIDs = [
@@ -188,21 +213,33 @@ export class Polity {
     // FARMING FUNCTION HERE
     let r = (Math.random() * (this._farmingLevel + this._region._riverConnections)) / 100;
     this._farmingYield = Math.floor(r * this._region._foodYieldReplenish * this._population);
-    this.upgradeFarmingLevel(this._farmingYield);
+    this.upgradeFarmingLevel();
     this._region._farmingYield =  this._farmingYield;
   }
 
-  upgradeFarmingLevel(farmingYield){
+  upgradeFarmingLevel(){
     let newLevel:number = 1;
-    if(farmingYield >= 1){newLevel = 2;}
-    if(farmingYield >= 2){newLevel = 3;}
-    if(farmingYield >= 4){newLevel = 4;}
-    if(farmingYield >= 8){newLevel = 5;}
-    if(farmingYield >= 16){newLevel = 6;}
-    if(farmingYield >= 32){newLevel = 7;}
-    if(farmingYield >= 64){newLevel = 8;}
-    if(farmingYield >= 128){newLevel = 9;}
-    if(farmingYield >= 256){newLevel = 10;}
+    // BAND LEVEL
+    if(this._farmingYield >= 1){newLevel = 2;}
+    if(this._farmingYield >= 2){newLevel = 3;}
+    if(this._farmingYield >= 4){newLevel = 4;}
+    if(this._farmingYield >= 8){newLevel = 5;}
+    if(this._farmingYield >= 16){newLevel = 6;}
+    if(this._farmingYield >= 32){newLevel = 7;}
+    if(this._farmingYield >= 64){newLevel = 8;}
+    if(this._farmingYield >= 128){newLevel = 9;}
+    if(this._farmingYield >= 256){newLevel = 10;}
+
+    // VILLAGE LEVEL
+    if(this._farmingYield >= 1024){newLevel = 12;}
+    if(this._farmingYield >= 2048){newLevel = 13;}
+    if(this._farmingYield >= 4096){newLevel = 14;}
+    if(this._farmingYield >= 8192){newLevel = 15;}
+    if(this._farmingYield >= 8192){newLevel = 16;}
+    if(this._farmingYield >= 8192){newLevel = 17;}
+    if(this._farmingYield >= 8192){newLevel = 18;}
+    if(this._farmingYield >= 8192){newLevel = 19;}
+    if(this._farmingYield >= 8192){newLevel = 20;}
     if(this._farmingLevel < newLevel){this._farmingLevel = newLevel;}
     this.upgradeFoodStorageCapacity();
     
@@ -211,14 +248,25 @@ export class Polity {
   upgradeFoodStorageCapacity(){
     if(this._farmingLevel == 1){this._foodStorageCapacity = 0;}
     if(this._farmingLevel == 2){this._foodStorageCapacity = 1;}
-    if(this._farmingLevel == 3){this._foodStorageCapacity = 2;}
-    if(this._farmingLevel == 4){this._foodStorageCapacity = 4;}
-    if(this._farmingLevel == 5){this._foodStorageCapacity = 8;}
-    if(this._farmingLevel == 6){this._foodStorageCapacity = 16;}
-    if(this._farmingLevel == 7){this._foodStorageCapacity = 32;}
-    if(this._farmingLevel == 8){this._foodStorageCapacity = 64;}
-    if(this._farmingLevel == 9){this._foodStorageCapacity = 128;}
-    if(this._farmingLevel == 10){this._foodStorageCapacity = 256;}
+    if(this._farmingLevel == 3){this._foodStorageCapacity = 5;}
+    if(this._farmingLevel == 4){this._foodStorageCapacity = 10;}
+    if(this._farmingLevel == 5){this._foodStorageCapacity = 20;}
+    if(this._farmingLevel == 6){this._foodStorageCapacity = 35;}
+    if(this._farmingLevel == 7){this._foodStorageCapacity = 55;}
+    if(this._farmingLevel == 8){this._foodStorageCapacity = 80;}
+    if(this._farmingLevel == 9){this._foodStorageCapacity = 110;}
+    if(this._farmingLevel >= 10){this._foodStorageCapacity = 250;}
+    if(this._farmingLevel >= 11){this._foodStorageCapacity = 500;}
+    if(this._farmingLevel >= 12){this._foodStorageCapacity = 600;}
+    if(this._farmingLevel >= 13){this._foodStorageCapacity = 800;}
+    if(this._farmingLevel >= 14){this._foodStorageCapacity = 1000;}
+    if(this._farmingLevel >= 15){this._foodStorageCapacity = 1200;}
+    if(this._farmingLevel >= 16){this._foodStorageCapacity = 1400;}
+    if(this._farmingLevel >= 17){this._foodStorageCapacity = 1600;}
+    if(this._farmingLevel >= 18){this._foodStorageCapacity = 1800;}
+    if(this._farmingLevel >= 19){this._foodStorageCapacity = 2000;}
+    if(this._farmingLevel >= 20){this._foodStorageCapacity = 2500;}
+    // if(this._farmingLevel == 15){this._foodStorageCapacity = 4096;}
 
   }
 
