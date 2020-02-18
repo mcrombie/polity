@@ -1,4 +1,4 @@
-import {chicagoDogNamesList} from './nameLists';
+import {chicagoDogNamesList, fertileCrescentNamesList} from './nameLists';
 
 class NameGenerator{
     public _originalNames:string[];
@@ -41,3 +41,4 @@ class NameGenerator{
 }
 
 export const chicagoDogNames = new NameGenerator(chicagoDogNamesList);
+export const fertileCrescentNames = new NameGenerator(fertileCrescentNamesList);

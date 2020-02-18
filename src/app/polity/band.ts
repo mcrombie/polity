@@ -1,7 +1,7 @@
 import { Polity } from './polity';
 import { Region } from '../region/region';
 import { Visual,  bandVisual } from '../misc/Visual';
-import {chicagoDogNames} from '../misc/nameGenerator';
+import {chicagoDogNames, fertileCrescentNames} from '../misc/nameGenerator';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Village } from './village';
 import { continental, ocean } from '../region/climate';
@@ -40,7 +40,7 @@ export class Band extends Polity {
     /* --------------------------------- */
 
     bandSplit(regions, region, population) {
-        let newBand = new Band(region, chicagoDogNames.popRandomName(), population, false);
+        let newBand = new Band(region, fertileCrescentNames.popRandomName(), population, false);
         region._polity = newBand;
         region._polity.act(regions);
     }
