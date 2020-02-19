@@ -4,9 +4,14 @@
     display:flex;
     flex-direction: column;
     align-items: center;
-    background-color:$color-background;
+    // background-color:$color-background;
 }
 
+.map-title{
+    margin:1rem;
+    font-size:3rem;
+    color:$color-font-black;
+}
 
 
 .tile-container{
@@ -19,7 +24,37 @@
 
     
 }
-
 .control-panel{
-
+    &__button-container{
+        padding:1rem;
+        display:flex;
+        flex-direction: row;
+    }
+    &__btn{
+        background-color:$color-btn;
+        border:none;
+        border-radius: 1rem;
+        box-shadow: 0 3px $shadow;
+        color:$color-font-white;
+        padding:1.5rem;
+        text-decoration: none;
+        cursor:pointer;
+        outline: none;
+    
+        margin:auto;
+    
+        margin-top:1rem;
+    
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+    }
+    &__btn:hover{
+        background-color:$color-btn-hover;
+        
+    }
+    &__btn:active{
+        background-color:$color-btn-hover;
+        box-shadow: 0 1px $shadow;
+        transform: translateY(2px);
+    }
   }

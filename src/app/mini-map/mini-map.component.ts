@@ -33,12 +33,12 @@ export class MiniMapComponent implements OnInit {
 
   ngOnInit() {
     // ADD POLITIES
-    this.polities.push(new Band(this.regions[0], 'Origin', 10, true));
-    this.regions[0]._polity = this.polities[0];
+    this.polities.push(new Band(this.regions[65], 'Origin', 10, true));
+    this.regions[65]._polity = this.polities[0];
 
 
-    this.selectedPolity = this.polities[0];
-    this.selectedPolity._selected = 'selected';
+    // this.selectedPolity = this.polities[0];
+    // this.selectedPolity._selected = 'selected';
     
     //ADD RIVERS
     this.rivers.forEach((river) => {
@@ -105,12 +105,23 @@ export class MiniMapComponent implements OnInit {
 
   play(number){
     // this.forwardYears(1);
+    let intNumber = parseInt(number);
+    this.pause();
     this.interval = setInterval(()=> {
-      this.forwardYears(number); },1000); 
+      this.forwardYears(intNumber); },1000); 
   }
 
   pause(){
     clearInterval(this.interval);
+  }
+
+  reset(){
+    this.polities = [];
+    this.regions.forEach((region) => {
+      region._polity = new NoPolity();
+    })
+    this.year = 0;
+    this.ngOnInit();
   }
 
 

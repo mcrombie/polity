@@ -121,6 +121,15 @@ export class MapComponent implements OnInit {
     clearInterval(this.interval);
   }
 
+  reset(){
+    this.polities = [];
+    this.regions.forEach((region) => {
+      region._polity = new NoPolity();
+    })
+    this.year = 0;
+    this.ngOnInit();
+  }
+
   globalPopulation(){
     let globalPopulation = 0;
     this.polities.forEach((polity) => {

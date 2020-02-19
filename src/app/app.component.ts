@@ -4,6 +4,8 @@ import { dry, ocean, temperate } from './region/climate';
 import { Polity } from './polity/polity';
 import { fertileCrescent } from './savedMaps/fertileCrescent';
 import { testMap } from './savedMaps/testMap';
+import { emptyOcean } from './savedMaps/emptyOcean';
+import { singleTileContinental } from './savedMaps/singleTileContinental';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +16,8 @@ export class AppComponent {
   title = 'root-of-civilization';
   fertileCrescentMap = fertileCrescent;
   testMapMap = testMap;
+  emptyOceanMap = emptyOcean;
+  singleTileContinentalMap = singleTileContinental;
   
 }
 
