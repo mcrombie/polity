@@ -1,6 +1,7 @@
 @import '../styles.scss';
 
 $section-separator:6rem;
+$subsection-separator:3rem;
 $paragraph-separation:2rem;
 
 .main-title{
@@ -13,6 +14,12 @@ $paragraph-separation:2rem;
     text-align: center;
     font-size:3rem;
     margin-top:$section-separator;
+    margin-bottom: $paragraph-separation;
+}
+.subsection-title{
+    text-align: center;
+    font-size:2.3rem;
+    margin-top:$subsection-separator;
     margin-bottom: $paragraph-separation;
 }
 
@@ -34,3 +41,37 @@ $paragraph-separation:2rem;
 }
 
 .map-separator{margin-bottom: $paragraph-separation;}
+
+
+// FOR RIVER IN KEY
+.east-river{
+
+    height:$tile-size;
+    width:2px;
+    background-color: $color-water;
+
+}
+
+.figure-container{
+    text-align:center;
+    width:100%;
+    
+    .image{
+        margin:auto;
+        width:50rem;
+        height: auto;
+    }
+}
+
+.quote-container{
+    margin:auto auto $paragraph-separation auto;
+    &__quote{
+        font-size:2.1rem;
+    }
+    &__attribution{
+        font-size: 1.9rem;
+        margin-left:75%;
+    }
+    &__attribution::before {content: '― '; }
+    
+}

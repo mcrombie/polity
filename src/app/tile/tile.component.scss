@@ -16,6 +16,12 @@
     
 }
 
+.region-label{
+    font-size:1rem;
+    word-wrap: break-word;
+    color:$color-font-white;
+}
+
 .tropical{background-color:$color-tropical;}
 .dry{background-color:$color-dry;}
 .temperate{background-color:$color-temperate;}
@@ -43,11 +49,11 @@
     color:$color-band;
 }
 .village{
-    font-size:.25rem;
+    font-size:.75rem;
     color:$color-village;
 }
 .town{  
-    font-size:.25rem;
+    font-size:.75rem;
     color:$color-town;
 }
 

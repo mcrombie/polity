@@ -15,6 +15,7 @@ import { Village } from '../polity/village';
 })
 export class MiniMapComponent implements OnInit {
   public year = 0;
+  @Input() title:string;
   @Input() regions: Region[];
   @Input() rivers:River[];
 
@@ -25,6 +26,8 @@ export class MiniMapComponent implements OnInit {
   public selectedPolity: Polity = new Polity();
 
   public interval;
+
+  
 
 
   constructor() {
@@ -73,9 +76,10 @@ export class MiniMapComponent implements OnInit {
   }
 
   forwardYears(number) {
+    let intNumber = parseInt(number);
     // 1. UPDATE YEAR
-    this.year += number;
-    for (let i = 0; i < number; i++) {
+    this.year += intNumber;
+    for (let i = 0; i < intNumber; i++) {
       // 2. POLITIES ACT
       this.polities.forEach((polity) => { 
         polity.act(this.regions); 
@@ -148,11 +152,9 @@ export class MiniMapComponent implements OnInit {
   }
 
   drawRivers(riverLines){
-    //ADJUST FOR NEW ID SYSTEM
     this.regions.forEach((region) => {
       if(riverLines[`${region._col}-${region._row}`] !== undefined){
         for(let i=0; i < riverLines[`${region._col}-${region._row}`].length; i++){
-          // console.log('hit' + ' ' + region.id + ' ' + riverLines[`${region._col}-${region._row}`][i]);
           region._borders[i] = riverLines[`${region._col}-${region._row}`][i];
          }
       }

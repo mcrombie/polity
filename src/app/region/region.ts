@@ -21,7 +21,8 @@ export class Region {
 
 
   public _climateType:string;
-  constructor(public _col: number, public _row: number, public _climate:Climate, public _polity:Polity) {
+  constructor(public _col: number, public _row: number, public _climate:Climate, public _polity:Polity, 
+    public _label?:string) {
     this._col = _col;
     this._row = _row;
     this._id = [this._col, this._row];
@@ -35,6 +36,7 @@ export class Region {
     this._riverConnections = 0;
     this._borders = ['none', 'none', 'none', 'none'];
     this._selected = 'not-selected';
+    this._label = _label;
   }
 
   /* --------------------------------- */
