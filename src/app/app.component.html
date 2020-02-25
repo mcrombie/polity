@@ -71,8 +71,9 @@
             <section id="agriculture">
                 <h2 class="section-title">Part II: Agriculture</h2>
                 <div class="quote-container">
-                    <blockquote class="quote-container__quote"><q>Where tillage begins, other arts follow. The farmers therefore are the founders of human
-                        civilization.</q></blockquote>
+                    <blockquote class="quote-container__quote"><q>Where tillage begins, other arts follow. The farmers
+                            therefore are the founders of human
+                            civilization.</q></blockquote>
                     <div class="quote-container__attribution">Daniel Webster</div>
                 </div>
 
@@ -142,43 +143,51 @@
                     and dry climates. Even with the rivers, they aren’t able to evolve into villages in continental
                     climates.</p>
                 <p class="paragraph">This key should help make sense of what is going on.</p>
-                <h3 class="subsection-title">Map Key</h3>
-                <dl class="key">
-                    <dt><i class="icon fa fa-male" aria-hidden="true"></i></dt>
-                    <dd>Represents 2 - 50 people in a band of nomadic foragers.</dd>
-                    <dt><i class="icon fa fa-home" aria-hidden="true"></i></dt>
-                    <dd>Represents 2 - 500 people in a village of sedentary farmers.</dd>
-                    <dt><i class="icon fa fa-building" aria-hidden="true"></i></dt>
-                    <dd>Represents 2 - 5000 people in a town.</dd>
-                    <dt>
-                        <app-tile [_region]="temperateSample"></app-tile>
-                    </dt>
-                    <dd>Temperate Region</dd>
-                    <dt>
-                        <app-tile [_region]="continentalSample"></app-tile>
-                    </dt>
-                    <dd>Continental Region</dd>
-                    <dt>
-                        <app-tile [_region]="drySample"></app-tile>
-                    </dt>
-                    <dd>Dry Region</dd>
-                    <dt>
-                        <app-tile [_region]="tropicalSample"></app-tile>
-                    </dt>
-                    <dd>Tropical Region</dd>
-                    <dt>
-                        <app-tile [_region]="polarSample"></app-tile>
-                    </dt>
-                    <dd>Polar Region</dd>
-                    <dt>
-                        <app-tile [_region]="oceanSample"></app-tile>
-                    </dt>
-                    <dd>Ocean Region</dd>
-                    <dt>
-                        <div class="east-river"></div>
-                    </dt>
-                    <dd>River</dd>
-                </dl>
+                <h3 class="subsection-title">Polities Key</h3>
+                <p class="paragraph">All Polities start out as Bands. As they develop into Villages and later Towns,
+                    they grow faster and have increased farming abilities. In the future, I want to add additional
+                    abilities with each evolution of the Polity, such as markets and government centers.</p>
+                <ul class="key">
+                    <li class="key__item"><i class="icon fa fa-male" aria-hidden="true"></i> - Represents 2 - 50 people
+                        in a band of nomadic foragers.</li>
+                    <li class="key__item"><i class="icon fa fa-home" aria-hidden="true"></i> - Represents 2 - 500 people
+                        in a village of sedentary farmers.</li>
+                    <li class="key__item"><i class="icon fa fa-building" aria-hidden="true"></i> - Represents 2 - 5000
+                        people in a town.</li>
+                </ul>
+                <h3 class="subsection-title">Regions Key</h3>
+                <p class="paragraph">Regions vary by climate. Different climates have different food yields. In the ufture I
+                    would like them to convey advantages aside from food. As of now, there is a clear hierarchy of which
+                    climates are the best with temperate being on top.</p>
+                <ul class="key">
+                    <li class="key__item">
+                        <app-tile style="display:inline-block;" [_region]="temperateSample"></app-tile> - Temperate Region
+                    </li>
+                    <li class="key__item">
+                        <app-tile style="display:inline-block;" [_region]="continentalSample"></app-tile> - Continental Region
+                    </li>
+                    <li class="key__item">
+                        <app-tile style="display:inline-block;" [_region]="drySample"></app-tile> - Dry Region
+                    </li>
+                    <li class="key__item">
+                        <app-tile style="display:inline-block;" [_region]="tropicalSample"></app-tile> - Tropical Region
+                    </li>
+                    <li class="key__item">
+                        <app-tile style="display:inline-block;" [_region]="polarSample"></app-tile> - Polar Region
+                    </li>
+                    <li class="key__item">
+                        <app-tile style="display:inline-block;" [_region]="oceanSample"></app-tile> - Ocean Region
+                    </li>
+                </ul>
+                <h3 class="subsection-title">Terrains Key</h3>
+                <p class="paragraph">Rivers are the only Terrain objects I have added so far. In the future I would like
+                    to include hills, mountains, forests, and jungles.</p>
+                <ul class="key">
+                    <li class="key__item">
+                        <div style="display:inline-block;" class="north-river"></div> - River
+                    </li>
+                </ul>
+
                 <h3 class="subsection-title">Polities and Regions</h3>
                 <p class="paragraph">Using an <a
                         href="https://www.techopedia.com/definition/3235/object-oriented-programming-oop"
@@ -404,8 +413,17 @@
             </section>
             <section id="sources">
                 <h2 class="section-title">Sources</h2>
-
-            </section>  
+                <ul class="source-list">
+                    <li class="source-list__source">Diamond, Jared. <em>Guns, Germs, and Steel: The Fate of Human
+                            Societies</em>. New
+                        York: Norton,
+                        1997.</li>
+                    <li class="source-list__source">Harari, Yuval. <em>Sapiens: A Brief History of Humankind</em>. New York: Harper, 2015.</li>
+                    <li class="source-list__source"><a href="www.bighistoryproject.com" target="_blank"><q>Big History Project</q></a>. Retrieved 2020-02-25.</li>
+                    <li class="source-list__source"><a href="https://civilization.com/" target="_blank"><q>Civilization</q></a>. Retrieved 2020-02-25.</li>
+                    <li class="source-list__source">Simler, Kevin. <a href="https://www.meltingasphalt.com/interactive/going-critical/" target="_blank"><q>Going Critical.</q></a>, 2019-05-13.</li>
+                </ul>
+            </section>
         </div>
     </article>
 </main>

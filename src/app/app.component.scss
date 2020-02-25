@@ -1,8 +1,31 @@
 @import '../styles.scss';
 
+/* --------------------------------- */
+/* VARIABLES */
+/* --------------------------------- */
+
 $section-separator:6rem;
 $subsection-separator:3rem;
 $paragraph-separation:2rem;
+
+/* --------------------------------- */
+/* STRUCTURE */
+/* --------------------------------- */
+
+.wrapper{
+    margin:0rem 32rem 0rem 32rem;
+}
+.map{
+    width:100%;
+    margin:auto;
+}
+
+.map-separator{margin-bottom: $paragraph-separation;}
+
+
+/* --------------------------------- */
+/* TYPOGRAPHY */
+/* --------------------------------- */
 
 .main-title{
     text-align: center;
@@ -10,11 +33,17 @@ $paragraph-separation:2rem;
     margin-bottom: $paragraph-separation;
 }
 
+.main-title-subtitle{
+    font-size: 2.2rem;
+    text-align: center;
+}
+
 .section-title{
     text-align: center;
     font-size:3rem;
     margin-top:$section-separator;
     margin-bottom: $paragraph-separation;
+    text-decoration: underline;
 }
 .subsection-title{
     text-align: center;
@@ -29,32 +58,48 @@ $paragraph-separation:2rem;
     line-height: 1.5;
 }
 
-.wrapper{
-    margin:0rem 32rem 0rem 32rem;
+/* --------------------------------- */
+/* LINKS */
+/* --------------------------------- */
+
+a{
+    text-decoration:none;
+    color:#3498db;
+    transition:all .4s;
+}
+a:hover{
+    color:#8e44ad;
+}
+a:active{
+    color:#8e44ad;
 }
 
+/* --------------------------------- */
+/* KEY */
+/* --------------------------------- */
 
-//THE MAP
-.map{
-    width:100%;
-    margin:auto;
+.key{
+    list-style-type: none;
+    &__item{
+        font-size:1.8rem;
+        margin-bottom: $paragraph-separation;
+    }
 }
 
-.map-separator{margin-bottom: $paragraph-separation;}
-
-
-// FOR RIVER IN KEY
-.east-river{
-
-    height:$tile-size;
-    width:2px;
+.north-river{
+    height:2px;
+    width:$tile-size;
     background-color: $color-water;
-
 }
+
+/* --------------------------------- */
+/* IMAGES */
+/* --------------------------------- */
 
 .figure-container{
     text-align:center;
     width:100%;
+    margin:auto auto $paragraph-separation auto;
     
     .image{
         margin:auto;
@@ -62,6 +107,10 @@ $paragraph-separation:2rem;
         height: auto;
     }
 }
+
+/* --------------------------------- */
+/* QUOTES */
+/* --------------------------------- */
 
 .quote-container{
     margin:auto auto $paragraph-separation auto;
@@ -74,4 +123,49 @@ $paragraph-separation:2rem;
     }
     &__attribution::before {content: '― '; }
     
+}
+
+/* --------------------------------- */
+/* SOURCES */
+/* --------------------------------- */
+
+.source-list{
+    list-style-type: none;
+    &__source{
+        font-size:1.8rem;
+        margin-bottom:$paragraph-separation;  
+      }
+}
+
+/* --------------------------------- */
+/* RESPONSIVE DESIGN */
+/* --------------------------------- */
+
+
+@media (max-device-width: 600px), (min-device-width: 600px) {
+   .wrapper{
+       margin:0rem 5rem 0rem 5rem;
+   }
+//    .map{
+//         width:80%;
+//         margin:auto;
+//     }   
+}
+
+@media (min-device-width: 800px) {
+    .wrapper{
+        margin:0rem 15rem 0rem 15rem;
+    }
+}
+
+@media (min-device-width: 1024px) {
+    .wrapper{
+        margin:0rem 25rem 0rem 25rem;
+    }
+}
+
+@media (min-device-width: 1280px) {
+    .wrapper{
+        margin:0rem 32rem 0rem 32rem;
+    }
 }
