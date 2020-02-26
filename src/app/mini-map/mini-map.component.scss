@@ -42,6 +42,35 @@
 
     
 }
+
+@media (max-device-width: 600px), (min-device-width: 600px) {
+    .tile-container{
+        grid-template-rows:repeat(12, 2rem);
+        grid-template-columns: repeat(12, 2rem);
+    }
+  }
+  
+  @media (min-device-width: 800px) {
+    .tile-container{
+        grid-template-rows:repeat(12, 2.5rem);
+        grid-template-columns: repeat(12, 2.5rem);
+    }
+  
+  }
+  
+  @media (min-device-width: 1024px) {
+    .tile-container{
+        grid-template-rows:repeat(12, 3rem);
+        grid-template-columns: repeat(12, 3rem);
+    }
+  }
+  
+  @media (min-device-width: 1280px) {
+    .tile-container{
+        grid-template-rows:repeat(12, $tile-size);
+        grid-template-columns: repeat(12, $tile-size);
+    }
+  }
 .control-panel{
     width:80%;
     &__button-container{
@@ -50,6 +79,7 @@
         flex-direction: row;
         justify-content: space-around;
         align-items: space-around;
+        margin-top:4%;
     }
     &__forward-button-container{
         display:flex;
@@ -57,13 +87,13 @@
         align-items: flex-end;
     }
     &__years-per-second-input{
-        width:5rem;
-        height:2rem;
+        width:20%;
+        height:30%;
         padding:.2rem;
     }
     &__forward-label{
         color:$color-font-white;
-        width:3rem;
+        width:30%;
         padding:.2rem;
     }
     &__btn{
@@ -72,14 +102,13 @@
         border-radius: 1rem;
         box-shadow: 0 3px $shadow;
         color:$color-font-white;
-        padding:1.5rem;
+        padding:.8rem;
         text-decoration: none;
         cursor:pointer;
         outline: none;
     
         margin:auto;
     
-        margin-top:1rem;
     
         -webkit-transition-duration: 0.4s; /* Safari */
         transition-duration: 0.4s;

@@ -17,6 +17,10 @@
     color:black;
     font-family: 'Philosopher', sans-serif; }
 
+    body{
+      max-width:100vw;
+    }
+
 
 @mixin center-horizontal-vertical{
     position:absolute;
@@ -62,9 +66,6 @@ $color-water:#0652DD;
 
 
 
-/* --------------------------------- */
-/* BLAH */
-/* --------------------------------- */
 
 
 

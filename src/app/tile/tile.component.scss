@@ -1,4 +1,5 @@
 @import '../../styles.scss';
+@import '../app.component.scss';
 
 
 
@@ -15,6 +16,40 @@
     height:$tile-size;
     
 }
+
+/* --------------------------------- */
+/* RESPONSIVE DESIGN */
+/* --------------------------------- */
+
+
+@media (max-device-width: 600px), (min-device-width: 600px) {
+    .tile{
+        width:2rem;
+        height:2rem;
+    }
+  }
+  
+  @media (min-device-width: 800px) {
+    .tile{
+        width:2.5rem;
+        height:2.5rem;
+    }
+  
+  }
+  
+  @media (min-device-width: 1024px) {
+    .tile{
+        width:3rem;
+        height:3rem;
+    }
+  }
+  
+  @media (min-device-width: 1280px) {
+    .tile{
+        width:$tile-size;
+        height:$tile-size;
+    }
+  }
 
 .region-label{
     font-size:1rem;

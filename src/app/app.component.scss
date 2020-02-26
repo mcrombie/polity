@@ -103,7 +103,7 @@ a:active{
     
     .image{
         margin:auto;
-        width:50rem;
+        width:100%;
         height: auto;
     }
 }
@@ -144,28 +144,34 @@ a:active{
 
 @media (max-device-width: 600px), (min-device-width: 600px) {
    .wrapper{
+       max-width:25rem;
        margin:0rem 5rem 0rem 5rem;
-   }
-//    .map{
-//         width:80%;
-//         margin:auto;
-//     }   
+       }
+   .map{
+        width:20rem;
+        margin:auto;
+    }
+    
 }
 
 @media (min-device-width: 800px) {
     .wrapper{
+        max-width:30rem;
         margin:0rem 15rem 0rem 15rem;
     }
+
 }
 
 @media (min-device-width: 1024px) {
     .wrapper{
+        max-width:50rem;
         margin:0rem 25rem 0rem 25rem;
     }
 }
 
 @media (min-device-width: 1280px) {
     .wrapper{
+        max-width:100rem;
         margin:0rem 32rem 0rem 32rem;
     }
 }
