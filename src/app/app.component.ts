@@ -16,6 +16,7 @@ import { iceAgeFertileCrescent } from './savedMaps/iceAgeFertileCrescent';
 import { china } from './savedMaps/china';
 import { mesoAmerica } from './savedMaps/mesoAmerica';
 import { NoPolity } from './polity/noPolity';
+import { sampleIsland } from './savedMaps/sampleIsland';
 
 @Component({
   selector: 'app-root',
@@ -37,6 +38,7 @@ export class AppComponent {
   fiveTileTemperateMap = fiveTileTemperate;
   allClimatesMap = allClimates;
   allClimatesRiverMap = allClimatesRiver;
+  sampleIslandMap = sampleIsland;
 
   public temperateSample = new Region(0,0,temperate, new NoPolity());
   public continentalSample = new Region(0,0,continental, new NoPolity());

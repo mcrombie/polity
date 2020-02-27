@@ -123,3 +123,22 @@
         transform: translateY(2px);
     }
   }
+
+  @media (min-device-width: 1280px) {
+    .wrapper{
+        max-width:100rem;
+        margin:0rem 32rem 0rem 32rem;
+    }
+    .control-panel{
+        &__years-per-second-input{
+            width:30%;
+            height:40%;
+            padding:.5rem;
+        }
+        &__btn{
+
+            padding:1.5rem;
+
+        }
+    }
+}
