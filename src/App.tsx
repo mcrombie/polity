@@ -1,0 +1,461 @@
+import './styles.css';
+import MiniMap from './components/MiniMap';
+import Tile from './components/Tile';
+import { Region } from './lib/region';
+import { NoPolity } from './lib/noPolity';
+import { temperate, continental, dry, tropical, polar, ocean } from './lib/climate';
+import {
+  createSampleIslandRegions, sampleIslandRivers,
+  createFertileCrescentRegions, fertileCrescentRivers,
+  createIceAgeFertileCrescentRegions, iceAgeFertileCrescentRivers,
+  createSingleTileContinentalRegions, singleTileRivers,
+  createFiveTileContinentalRegions, fiveTileRivers,
+  createFiveTileTemperateRegions,
+  createAllClimatesRegions, allClimatesRivers,
+  createAllClimatesRiverRegions, allClimatesRiverRivers,
+  createChinaRegions, chinaRivers,
+  createMesoAmericaRegions, mesoAmericaRivers,
+} from './lib/savedMaps';
+
+const temperateSample = new Region(0, 0, temperate, new NoPolity());
+const continentalSample = new Region(0, 0, continental, new NoPolity());
+const drySample = new Region(0, 0, dry, new NoPolity());
+const tropicalSample = new Region(0, 0, tropical, new NoPolity());
+const polarSample = new Region(0, 0, polar, new NoPolity());
+const oceanSample = new Region(0, 0, ocean, new NoPolity());
+
+export default function App() {
+  return (
+    <main>
+      <article>
+        <div className="banner">
+          <h1 className="banner__title">The Root of Civilization</h1>
+          <img id="banner-image-1" className="banner__image" src="assets/root-of-civilization-stage-1.jpg" alt="Floating city with roots" />
+          <img id="banner-image-2" className="banner__image" src="assets/root-of-civilization-stage-2.jpg" alt="Floating city with roots" />
+          <img id="banner-image-3" className="banner__image" src="assets/root-of-civilization-stage-3.jpg" alt="Floating city with roots" />
+          <div className="banner__subtitle">By Michael Crombie</div>
+        </div>
+
+        <div className="wrapper">
+
+          <section id="introduction">
+            <p className="paragraph">As my last personal project before going back to full-time work, I wanted to write
+              an interactive essay tying together my interests in farming, history, and coding. It was the perfect
+              time to follow through on an idea I have toyed with for years: a simulation of the growth of human
+              societies. You can play with a sample. I will explain how this works in detail later alongside more
+              examples.</p>
+            <MiniMap title="Sample Island" createRegions={createSampleIslandRegions} rivers={sampleIslandRivers} />
+            <div className="map-separator">&nbsp;</div>
+          </section>
+
+          <section id="inspiration">
+            <h2 className="section-title">Part I: Inspiration</h2>
+            <p className="paragraph">In the 4X strategy game, <a href="https://civilization.com/" target="_blank" rel="noreferrer"><em>Civilization</em></a>, you command a
+              civilization (e.g. Egypt, Rome, China, etc) from the dawn of history to the space age. It is
+              fascinating watching a city emerge on a small river straddling a lonely desert, to see wilderness
+              transition into farmland and pastures, to see libraries and theaters blossom, even to see the dark side
+              of war and famine. Each round of the game is unique, allowing players to experience fascinating
+              alternative geographic and historical scenarios. Abraham Lincoln could lead the peace-loving Jewish
+              Mongols to explore a hitherto unknown continent.</p>
+            <p className="paragraph">Playing <em>Civilization</em> was the most fun when I tuned into these nuances and
+              narratives. Unfortunately, I usually got so caught up in winning my own game (my ego) that I stop
+              enjoying the world around me. So what if I removed myself as a player?</p>
+            <p className="paragraph">There has been a lot of interest amongst <em>Civ</em> players in{' '}
+              <a href="https://www.rockpapershotgun.com/2015/02/20/civilization-streams-are-making-ai-fight/" target="_blank" rel="noreferrer">watching
+                the AI play itself</a>. This trend has resonated with me. Seeing how a world evolves organically can
+              be as fun as playing in it. However, the game is not designed for this. It takes some fenagling to make
+              it work. When I learned about zero-player games from{' '}
+              <a href="https://bitstorm.org/gameoflife/" target="_blank" rel="noreferrer">Conway's Game of Life</a>, I realized it was exactly
+              what I wanted to see for <em>Civilization</em>: a game where players can set the initial state and then
+              sit back to watch the AI unfold history.</p>
+            <p className="paragraph">The wonder of worldbuilding did not have to be coupled with excessive playtime and
+              addictiveness. Instead of pouring countless hours into this game, I decided to start developing my own
+              version. However, modeling civilization is a monumental task. I was stuck on where to begin. It was my
+              farming experience last year that made me realize every civilization shares one starting point:{' '}
+              <a href="#agriculture">agriculture</a>.</p>
+            <p className="paragraph">I created this interactive essay to explain my prototype of a zero-player
+              civilization simulation. The style is based on Kevin Simler's{' '}
+              <a href="https://meltingasphalt.com/going-critical/" target="_blank" rel="noreferrer"><q>Going Critical</q></a> and Nicky Case's{' '}
+              <a href="https://ncase.me/ballot/" target="_blank" rel="noreferrer"><q>To Build a Better Ballot</q></a>. They create more elegant
+              code and progressions of their ideas than I do here. I am grateful for their inspiration and envious of
+              their skills. You will see more instances of my app like the one above in the{' '}
+              <a href="#simulation">simulation section</a> below.</p>
+            <p className="paragraph">I built the app using Angular and Typescript. Veteran programmers may wince at
+              this choice. JavaScript is prone to floating point errors, and probably a poor choice for creating
+              simulations. However, I wanted to learn Angular and make the essay easily accessible online. I may
+              regret it if I continue to develop this project. That is ok. The learning experience has already made it
+              worth it.</p>
+          </section>
+
+          <section id="agriculture">
+            <h2 className="section-title">Part II: Agriculture</h2>
+            <div className="quote-container">
+              <blockquote className="quote-container__quote"><q>Where tillage begins, other arts follow. The farmers
+                therefore are the founders of human civilization.</q></blockquote>
+              <div className="quote-container__attribution">Daniel Webster</div>
+            </div>
+
+            <p className="paragraph"><em>Civilization V</em> uses Webster's quote to introduce the agriculture
+              technology. Below is <em>Civilization V's</em> technology tree. It visually represents the sequences of
+              upgrades a player can acquire through research. Notice agriculture is the prerequisite technology to
+              begin researching all others. This is not some arbitrary game mechanic. It is based on leading
+              anthropological theories for how civilization emerged. Simulating human civilization is a monumental
+              task, so I narrowed my goal for the first iteration of this project to <q>The Root of
+              Civilization</q>: agriculture.</p>
+            <figure className="figure-container">
+              <a href="https://well-of-souls.com/civ/images/tech_tree3.jpg" target="_blank" rel="noreferrer">
+                <img className="image" src="assets/civVTechTree.jpg" alt="Civilization V Tech Tree" />
+              </a>
+            </figure>
+            <p className="paragraph">There! I had a neat starting point. Except, like so often, the answer led to more
+              questions. How does{' '}
+              <a href="https://www.bighistoryproject.com/chapters/4#agriculture" target="_blank" rel="noreferrer">agriculture lead to complex
+                human societies</a> exactly? Before I could start designing my simulation, I needed to know what this
+              process looked like.</p>
+            <p className="paragraph">Put simply, agriculture creates more food. Early agrarian villages were able to
+              grow enough food to sustain larger populations than their foraging contemporaries. Over millennia,
+              innovations like the plow increased the efficiency of farming. Food surpluses freed labor for
+              specialized activities like trade, craftsmanship, art, religion, and governance. Eventually towns
+              emerged providing services like markets, granaries, and temples to nearby villages. Towns led to cities
+              and the dawn of the first civilizations.</p>
+            <p className="paragraph">I decided to make the paleolithic phase of human history, the time before the
+              advent of these sedentary settlements, the starting point of my simulation. Yet modern humans have been
+              around for approximately 200,000 years, and agrarian societies did not emerge until about 12,000 years
+              ago. Why the gap? <em>Civilization</em> skips this period by providing players with agriculture to
+              begin with and allowing them to build cities right away. So what made those first humans quit their
+              ancestral lifestyle of nomadic foraging and settle down to till the land?</p>
+            <p className="paragraph">Most of human history took place during the Pleistocene (an Ice Age), where bands
+              of foraging humans struggled to survive in harsh environments. About 12,000 years ago, the earth began
+              to get warmer and wetter. Certain regions, particularly in the Fertile Crescent, began to provide
+              abundant resources for groups of foraging humans. The people that lived in these proverbial Gardens of
+              Eden became relatively wealthy. These affluent foragers had enough food that they no longer needed to
+              migrate regularly. They became sedentary. Without the constraints of a nomadic lifestyle, their
+              populations began to swell from dozens to hundreds. Frequent migration into these rich regions added to
+              their numbers. They slowly fell into the trap of sedentism: overpopulation.</p>
+            <p className="paragraph">Eventually there were so many people that even the rich land could not sustain
+              all the inhabitants. The region became so crowded there was no open land to migrate to. The affluent
+              foragers were stuck. They had no choice but to look for a way to increase the productivity of the land
+              they were standing on. Thousands of years of ancestral knowledge and necessity led to the first
+              domestication of crops. Domestication is analogous to a symbiotic relationship we create with plants
+              and animals. Humanity realized we could reap large, regular harvests of the plants we like if we
+              cultivate them. Agriculture began. Densely populated settlements soon followed.</p>
+            <p className="paragraph">Now we that we have figured out the why and the when, there is one more line of
+              questioning to tackle: where did agriculture emerge? Why did it emerge independently in some places and
+              not others?</p>
+            <p className="paragraph">Agriculture is about domesticating plant and animal species and certain species
+              are more amenable to domestication than others. The Fertile Crescent was the cradle of civilization
+              because it had the most suitable crops and animals for domestication e.g. emmer wheat, einkorn, cows,
+              goats, sheep, etc. Some other crops that catalyzed the development of complex societies include rice
+              (in China), maize (in Mesoamerica), and potatoes (in the Andes). Other crops allowed for limited
+              growth of complex societies like Taro in New Guinea. Yet nowhere was as well endowed as the Middle
+              East.</p>
+            <p className="paragraph">Potential domesticates explains why certain biospheres were better grounds for
+              agriculture, but it does not explain why the first cities emerges in Mesopotamia and not nearby
+              Anatolia. The final key is life's most basic necessity: water. Specifically fresh water. To this day,
+              procuring enough potable water is a preerquisite to all human endeavors. Every early city emerged
+              alongside a convenient fresh water source: the Sumerian cities along the Tigris and Euphrates, the
+              Egyptians along the Nile, the Chinese along the Yellow and Yangtze rivers, and so on.</p>
+            <p className="paragraph">This research into the origin of agriculture provided me a clear process for
+              simulating civilization. First, nomadic foragers settle the earth. Second, overpopulation forces them
+              to find new means of procuring food. Third, climates suitable for agriculture will yield better results
+              for early farmers. Finally, locations with good climates and convenient fresh water will evolve into
+              agrarian villages and eventually the cities that represent the first phase of civilization.</p>
+          </section>
+
+          <section id="simulation">
+            <h2 className="section-title">Part III: The Simulation</h2>
+            <p className="paragraph">Now that we have a basic understanding for the theory of why agriculture emerged,
+              it is time to look at the simulation. But before I dive into the technical details of how it works,
+              let's look at a sample.</p>
+            <p className="paragraph">Below is a map of the Fertile Crescent during the Ice Age. Use the control panel
+              to iterate forward in the simulation, pause, or reset. Don't worry if you don't understand what is
+              going on yet.</p>
+            <MiniMap title="Ice Age Fertile Crescent" createRegions={createIceAgeFertileCrescentRegions} rivers={iceAgeFertileCrescentRivers} />
+            <div className="map-separator">&nbsp;</div>
+            <p className="paragraph">In the example above, we start with a lone Band of 10 foragers roaming the land.
+              Over the centuries, they spawn dozens of more Bands until the entire map is crowded. Yet this is still
+              the ice age. Populations remain small. The cold climate prevents agriculture from taking hold.</p>
+            <p className="paragraph">This key should help clarify what is happening as I explain the mechanics of
+              what you are seeing.</p>
+            <h3 className="subsection-title">Polities Key</h3>
+            <p className="paragraph">All Polities start out as Bands. As they develop into Villages and later Towns,
+              they grow faster and have increased farming abilities. In the future, I want to add additional
+              abilities with each evolution of the Polity, such as markets and government centers.</p>
+            <ul className="key">
+              <li className="key__item"><i className="icon fa fa-male" aria-hidden="true"></i> - Represents 2 - 50
+                people in a band of nomadic foragers.</li>
+              <li className="key__item"><i className="icon fa fa-home" aria-hidden="true"></i> - Represents 2 - 500
+                people in a village of sedentary farmers.</li>
+              <li className="key__item"><i className="icon fa fa-building" aria-hidden="true"></i> - Represents 2 -
+                5000 people in a town.</li>
+            </ul>
+            <h3 className="subsection-title">Regions Key</h3>
+            <p className="paragraph">Regions vary by climate. Different climates have different food yields per turn
+              and maximum food available without farming. There is a clear hierarchy of which climates are the best
+              with temperate being on top.</p>
+            <ul className="key">
+              <li className="key__item">
+                <Tile region={temperateSample} /> - Temperate Region - Food Yield Per Year: 20, Max Food Yield: 100
+              </li>
+              <li className="key__item">
+                <Tile region={continentalSample} /> - Continental Region - Food Yield Per Year: 10, Max Food Yield: 50
+              </li>
+              <li className="key__item">
+                <Tile region={drySample} /> - Dry Region - Food Yield Per Year: 5, Max Food Yield: 25
+              </li>
+              <li className="key__item">
+                <Tile region={tropicalSample} /> - Tropical Region - Food Yield Per Year: 15, Max Food Yield: 75
+              </li>
+              <li className="key__item">
+                <Tile region={polarSample} /> - Polar Region - Food Yield Per Year: 4, Max Food Yield: 20
+              </li>
+              <li className="key__item">
+                <Tile region={oceanSample} /> - Ocean Region - Food Yield Per Year: 0, Max Food Yield: 0
+              </li>
+            </ul>
+            <h3 className="subsection-title">Terrains Key</h3>
+            <p className="paragraph">Rivers are the only Terrain objects I have added so far. They give a bonus to
+              farming for every intersection the Region has touching a river. In the future I would like to add more
+              Terrains like hills, mountains, forests, and jungles.</p>
+            <ul className="key">
+              <li className="key__item">
+                <div style={{ display: 'inline-block', width: '4rem', height: '2px', backgroundColor: '#0652DD' }}></div> - River
+              </li>
+            </ul>
+
+            <h3 className="subsection-title">Polities and Regions</h3>
+            <p className="paragraph">Using an{' '}
+              <a href="https://www.techopedia.com/definition/3235/object-oriented-programming-oop" target="_blank" rel="noreferrer">object-oriented
+                model</a>, the simulation centers on the interaction between two objects: Polities (groups of humans)
+              and Regions (units of land represented by tiles). All objects are capitalized in this essay. Each
+              iteration of their interactions represents a year.</p>
+            <p className="paragraph">Each Region is positioned on a 12x12 grid. There are 144 Regions in each map.
+              Based on its climate, each Region replenishes a fixed amount of food each turn. However, each climate
+              has a fixed maximum amount of food that accumulates naturally. Climates can be either temperate,
+              tropical, dry, continental, polar, or ocean. Some Regions have rivers that increase food yield from
+              farming.</p>
+            <p className="paragraph">There can be zero or one Polities per Region. Every Polity has two or more
+              people. Each person requires one food each year. Polities extract food from corresponding Regions each
+              year and consume it. They can increase this yield by farming. Population grows based on the Polity's
+              growth rate which starts at 1%, meaning each person in the Polity has a 1% chance of adding another
+              person. Note this does not guarantee population will grow each year. Fractional population is not
+              possible.</p>
+            <p className="paragraph">Let's take a break from the word wall and look at an example.</p>
+            <MiniMap title="Single Continental Region" createRegions={createSingleTileContinentalRegions} rivers={singleTileRivers} />
+            <div className="map-separator">&nbsp;</div>
+            <p className="paragraph">Above is a simplified model of a single Polity and a single Region. The Region
+              has a continental climate, so it generates 10 food each turn and can hold a maximum of 50 food. Once
+              the population grows beyond 10, it will begin to expend the Region's excess food. Its population will
+              then be limited to 10 plus a few more from extra food grown through farming. With so little space and a
+              cold climate, the population won't exceed much more than 15.</p>
+            <h3 className="subsection-title">Nomadic Bands</h3>
+            <p className="paragraph">Every Polity has a subclass: Band, Village, or Town. Simulations begin with a
+              single Band. Each year, Bands will search for the neighboring tile with the highest food yield.
+              Movement can be made horizontally, vertically, or diagonally to one of the eight neighboring tiles so
+              long as it exists and is not an ocean. If there is a tie for highest yield, the Band moves randomly.
+              It will opt to stay in its current tile to farm if no neighbors have more food.</p>
+            <p className="paragraph">A Band's populations grows at a rate of 1% per year. When its population can no
+              longer sustain itself on any of the available tiles, a Band divides into two Bands. The new Band will
+              move to the Region with the second highest yield, while the original Band gets the best yielding
+              Region. The new Band's population will be between the number the parent could not feed and half the
+              parent's population.</p>
+            <p className="paragraph">Let's see what happens if we give the Band room to migrate.</p>
+            <MiniMap title="Five Continental Regions" createRegions={createFiveTileContinentalRegions} rivers={fiveTileRivers} />
+            <div className="map-separator">&nbsp;</div>
+            <p className="paragraph">With five continental Regions, the food yield is 50 each year. However, a Band
+              can only occupy a single Region at a time. Each year, the initial Band will forage one Region and
+              migrate to an unused one with more food available. The extra space allows the Band to grow more but
+              once its population exceeds 50 (the maximum natural food storage for continental Regions), it will
+              divide itself into two Bands. In this manner, the entire island will be occupied after a couple
+              centuries, and each Band will be confined to a single tile like in the previous example.</p>
+            <h3 className="subsection-title">The Trap of Sedentism Leads to Farming</h3>
+            <p className="paragraph">All maps gradually fill up with Bands of foragers like this. When a Band has
+              nowhere left to move for additional food, it will begin farming to augment its food supply. This
+              mechanic mimics the trap of sedentism discussed above. Farming allows Polities to increase a Region's
+              yearly food yield beyond its natural maximum capacity. Farming yield is determined by the formula:</p>
+            <p className="paragraph">(R * (FL + RC) * FY * P) / 100</p>
+            <p className="paragraph">Where,</p>
+            <p className="paragraph">R = random number (between 0 and 1)</p>
+            <p className="paragraph">FL = farming level (between 1 and 20)</p>
+            <p className="paragraph">RC = river connections (between 0 and 4)</p>
+            <p className="paragraph">FY = food yielded naturally from the region (based on climate)</p>
+            <p className="paragraph">P = population of the polity</p>
+            <p className="paragraph">With farming, Polities dramatically increase the amount of food they can
+              produce, allowing their populations to grow beyond the natural limits of their Region. Their farming
+              level increases the more they farm successfully. However, if they fail to produce enough food to feed
+              their population, the excess people will starve. This risk is mitigated by food storage capacity. As
+              farming levels increase, so does the amount of excess food Polities can carry over from year to year.
+              With high yields from good years stored to avoid famines in bad years, Band populations will grow into
+              the hundreds.</p>
+            <h3 className="subsection-title">Climate as Destiny</h3>
+            <p className="paragraph">Here is where the importance of climate comes in. The continental Regions we
+              have seen up until now don't allow for Bands to reach high farming levels. That changes in warmer,
+              wetter Regions like the temperate one below.</p>
+            <MiniMap title="Five Temperate Regions" createRegions={createFiveTileTemperateRegions} rivers={fiveTileRivers} />
+            <div className="map-separator">&nbsp;</div>
+            <p className="paragraph">You see the same dynamic as having continental Regions except populations grow
+              higher due to natural abundance. Temperate Regions generate 20 food per turn and have a natural
+              maximum food of 100. The Polity won't use up this natural excess until it has more than 20 people. By
+              then, its farming level will have risen, allowing it to sustain a much larger population than the
+              Region could naturally hold. However, the population won't reach much higher than 200 before
+              starvation ensues.</p>
+            <p className="paragraph">Variations in climate are thus critical. Let's shake it up and see what an
+              island with five different climates looks like: polar, continental, temperate, dry, and tropical.</p>
+            <MiniMap title="Five Climates" createRegions={createAllClimatesRegions} rivers={allClimatesRivers} />
+            <div className="map-separator">&nbsp;</div>
+            <p className="paragraph">You can see how the Bands favor temperate tiles. Only when their temperate
+              neighbors are depleted will Bands venture into the continental. When they have no other choice, they
+              will move into the dry and polar climates. However, Bands in the dry will be able to discover the more
+              favorable tropical climate, which yields more than continental but still less than the temperate.</p>
+            <p className="paragraph">Even with all this room and variation, Bands still stagnate in a single tile.
+              The overall population won't exceed much more than 1,100 before mass starvation.</p>
+            <h3 className="subsection-title">The Gift of the River</h3>
+            <p className="paragraph">In order to catalyze the emergence of civilizations, we need to introduce
+              another dynamic: fresh water. Regions receive a farming bonus for each corner they have that includes a
+              river. Watch what happens to the Bands along the new river, especially in temperate climates. Use the
+              plus button to jump ahead 1,000 years or so if you have to.</p>
+            <MiniMap title="Five Climates & a river" createRegions={createAllClimatesRiverRegions} rivers={allClimatesRiverRivers} />
+            <div className="map-separator">&nbsp;</div>
+            <p className="paragraph">Eventually, you will see some of the Bands straddling rivers transition into
+              Villages. The total population should not exceed much more than 11,000.</p>
+            <h3 className="subsection-title">From Villages to Towns to Cities</h3>
+            <p className="paragraph">Bands that have 500 or more people and are connected to a river evolve into
+              Villages. A Village represents the next stage in the evolution of civilization. It can reach higher
+              farming levels, has a growth rate of 2%, but is incapable of migrating to neighboring tiles when food
+              is scarce like Bands. There is still one more step that the map above is too small to reach.</p>
+            <p className="paragraph">When a Village reaches a population of 5,000 or more and has at least three
+              neighbors that are also Villages, it will evolve into a Town. Towns represent the last stage in a
+              Polity's development before becoming a City. The emergence of Towns indicates that a Civilization is
+              emerging in that area. <q>The Root of Civilization</q> has thus sprouted into a shrub. Since this
+              essay is not titled <q>The Shrub of Civilization</q>, I will save future developments for another
+              version. For now, Towns have no change in functionality from Village besides their visual
+              representation on the map.</p>
+            <h3 className="subsection-title">Historical Scenarios</h3>
+            <p className="paragraph">To see how Villages evolve into Towns, we will go back to historical examples.
+              We will see how this simulation can help us understand how climate changes contributed to the emergence
+              of Sumerian Civilization in the Fertile Crescent.</p>
+            <p className="paragraph">Earlier we saw what the Fertile Crescent looked like during the last Ice Age,
+              over 15,000 years ago. Not much was going on. With the end of the Ice Age, earth became warmer and
+              wetter. The Fertile Crescent transitioned into an ideal area for civilization to develop. So let's
+              take a look at what happens in a warmer version of the previous map.</p>
+            <MiniMap title="Fertile Crescent" createRegions={createFertileCrescentRegions} rivers={fertileCrescentRivers} />
+            <div className="map-separator">&nbsp;</div>
+            <p className="paragraph">We see familiar dynamics. Bands favor temperate climates and multiply until
+              there is no more room. Those Bands trapped into sedentary lifestyles in temperate climates along rivers
+              will develop into Villages. However, a new dynamic emerges. Many villages evolve alongside each other,
+              allowing for larger Villages to evolve into Towns, the precursors to cities.</p>
+            <p className="paragraph">The Fertile Crescent was not the only place climate change made suitable for
+              agriculture. Civilizations emerge independently in multiple areas around the globe. I made a couple
+              more historical models to represent the other two areas that we know independently invented
+              writing.</p>
+            <MiniMap title="Ancient China" createRegions={createChinaRegions} rivers={chinaRivers} />
+            <div className="map-separator">&nbsp;</div>
+            <p className="paragraph">Above we can see the growth of Chinese civilization along the Yellow and
+              Yangtze rivers. The earliest evidence of rice cultivation in China dates to about 8,000 years ago.
+              Cities developed around 4,000 years ago.</p>
+            <p className="paragraph">This final example takes us across the Pacific. Its geographic isolation proves
+              agriculture was discovered independently by disparate peoples.</p>
+            <MiniMap title="Ancient Mesoamerica" createRegions={createMesoAmericaRegions} rivers={mesoAmericaRivers} />
+            <div className="map-separator">&nbsp;</div>
+            <p className="paragraph">The map here is less elaborate as I am least familiar with Mesoamerican
+              history. The river in the middle is meant to represent ancient Lake Texcoco, where modern Mexico City
+              now stands. Agriculture was developed here around 4,500 years ago and cities shortly after.</p>
+            <h3 className="subsection-title">Conclusion</h3>
+            <p className="paragraph">I wrote this essay to outline my vision of a fun and educational simulation for
+              the unfolding of human history. The major aspects of this version are migration, population growth,
+              the trap of sedentism, the influence of climate, and fresh water. Each of these was critical for
+              civilization as we know it to emerge. Of course, there is a lot more to the story than that. In the
+              next section I will explore how I can expand this project in the future.</p>
+          </section>
+
+          <section id="future">
+            <h2 className="section-title">Part IV: Going Forward</h2>
+            <p className="paragraph">I could write an essay twice this size about what I am leaving out of this
+              simulation. When I was designing it a few weeks ago, I had a storm of ideas I have since pared down to
+              population growth and a simple farming equation. Before I wrap up, I'd like to review of these.</p>
+            <h3 className="subsection-title">Realistic Populations</h3>
+            <p className="paragraph">Ideally, I would like the simulation to have realistic population estimates. If
+              this were the case, each of the historical models I have created above should reach populations into
+              the millions. There is no precise data for this, but I would like to create a world map with a size
+              that makes population growth commensurate with{' '}
+              <a href="https://en.wikipedia.org/wiki/World_population#Past_population" target="_blank" rel="noreferrer">these projections</a>.</p>
+            <h3 className="subsection-title">Simulation Testing</h3>
+            <p className="paragraph">Coming up with clear, reviewable statistics is also on the idea list. I could
+              create an environment divorced from the UI that simply runs the math and outputs results in a CSV file.
+              I could then run hundreds of simulations to test and refine settings until they most closely resemble
+              the real-world data mentioned above. Yet a part of me dreads revisiting computer simulation concepts.
+              My simulations course in college was a mess of Monte Carlo methods in C and the hardest class I ever
+              took. However, applying those principles would take this program to the next level.</p>
+            <h3 className="subsection-title">Polity Hierarchy</h3>
+            <p className="paragraph">I would also like to play with the design of the Polity object. In{' '}
+              <a href="https://www.ynharari.com/book/sapiens/" target="_blank" rel="noreferrer"><em>Sapiens</em></a>, Harari mentions a system
+              for classifying human societies in stages: Band &rarr; Tribe &rarr; Chiefdom &rarr; State. This scheme
+              of sociopolitical development is borrowed from{' '}
+              <a href="https://www.britannica.com/biography/Elman-Rogers-Service" target="_blank" rel="noreferrer">Elman Service</a>. It struck me
+              as a good system for modeling the development of societies through gradually more advanced object
+              classes. I could add three subclasses to Polity: Tribe, Chiefdom, and State. However, I might have to
+              rethink the current model entirely if I go this route.</p>
+            <h3 className="subsection-title">Polity Behavior and Personalities</h3>
+            <p className="paragraph">As of now, all of the Polities actions are based around acquiring food. While
+              sustenance is naturally the priority, people can do a lot more than forage and farm. I want to give
+              Bands different personality traits that compel them to make different choices. I want to introduce
+              combat and religion as alternatives to farming. Instead of relying on farming, aggressive bands could
+              pillage their neighbors. There is also a theory for{' '}
+              <a href="https://www.bighistoryproject.com/chapters/4#creating-settlements" target="_blank" rel="noreferrer">religion spurring the
+                development of agriculture</a>, but it unclear to me how I will model this. These changes should add
+              a lot more variability and excitement to the simulation.</p>
+            <h3 className="subsection-title">Plant and Animal Objects</h3>
+            <p className="paragraph">Originally, I wanted to model how the domestication of plant and animal species
+              like emmer wheat and cattle were critical for the development of civilizations. For example, wheat was
+              more adaptable to agriculture than corn, one of the reasons maize growing Mesoamerica took longer to
+              develop than wheat growing Mesopotamia. However, as I realized how big a project this was, I scaled
+              back my goals for this first iteration. Next time, I would like to introduce domesticate crops like
+              wheat, maize, rice, potatoes, and taro. I will also consider domesticate animals like dogs, cattle,
+              goats, and pigs. In line with the{' '}
+              <a href="https://cromblog.com/writing-portfolio/book-reviews/botany-of-desire/" target="_blank" rel="noreferrer">coevolutionary
+                theory of domestication</a>, I would like to make these their own objects and not completely
+              subordinate to Polities.</p>
+            <h3 className="subsection-title">App Design</h3>
+            <p className="paragraph">In this essay, I condensed the original version of the app into a compact mini
+              map that I could include multiple times for demonstrative purposes. The full version is richer in
+              detail. In my next iteration, I would like to refine it into a standalone web app with an options menu
+              and more features. A map-maker mode would be key to making this into a true zero-player game.</p>
+            <h3 className="subsection-title">Final Thoughts</h3>
+            <p className="paragraph">I am dreaming up a lot more work for myself. Honestly, I do not know exactly
+              where I am going with this project. I just know I want it to continue. It is not going to be my main
+              focus like it has been these past few weeks. It is time to get a job before the recession hits. I'll
+              keep working on this occasionally. At the very least, it will help me refine my coding skills. Yet I
+              have this feeling it will lead to something bigger.</p>
+            <p className="paragraph">I'll end with a note on names. I am particularly fond of "The Root of
+              Civilization" as an essay title. It got me thinking. How about I name each iteration of this project
+              based on the growth a tree. The next one could be a "shrub", representing the growing stage of the
+              first towns and cities. Then the next stage could be a <q>tree</q>, simulating fully developed
+              agrarian civilizations. After that? I am thinking something like <q>The Factory of Civilization</q>,
+              where the tree is being chopped down and used to develop commodities. This would represent the
+              industrial era. After that? I am not so prescient. Appealing names probably should not define my
+              course of development ¯\_(ツ)_/¯</p>
+          </section>
+
+          <section id="sources">
+            <h2 className="section-title">Sources</h2>
+            <ul className="source-list">
+              <li className="source-list__source">Diamond, Jared. <em>Guns, Germs, and Steel: The Fate of Human
+                Societies</em>. New York: Norton, 1997.</li>
+              <li className="source-list__source">Harari, Yuval. <em>Sapiens: A Brief History of Humankind</em>.
+                New York: Harper, 2015.</li>
+              <li className="source-list__source"><a href="https://www.bighistoryproject.com" target="_blank" rel="noreferrer"><q>Big History
+                Project</q></a>. Retrieved 2020-02-25.</li>
+              <li className="source-list__source"><a href="https://civilization.com/" target="_blank" rel="noreferrer"><q>Civilization</q></a>.
+                Retrieved 2020-02-25.</li>
+              <li className="source-list__source">Simler, Kevin. <a
+                href="https://www.meltingasphalt.com/interactive/going-critical/" target="_blank" rel="noreferrer"><q>Going
+                Critical.</q></a>, 2019-05-13.</li>
+              <li className="source-list__source">Case, Nicky. <a href="https://ncase.me/ballot/" target="_blank" rel="noreferrer"><q>To Build a
+                Better Ballot.</q></a>, 2016-12.</li>
+            </ul>
+          </section>
+        </div>
+      </article>
+    </main>
+  );
+}
